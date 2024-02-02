@@ -8,24 +8,27 @@ using System.Text;
 using System.Windows.Forms;
 using FacebookWrapper.ObjectModel;
 using FacebookWrapper;
+using AppEngine;
 
 namespace BasicFacebookFeatures
 {
     public partial class FormMain : Form
     {
+        private readonly Engine r_AppEngine = new Engine();
+        private FacebookWrapper.LoginResult m_LoginResult;
         public FormMain()
         {
             InitializeComponent();
             FacebookWrapper.FacebookService.s_CollectionLimit = 25;
         }
 
-        private FacebookWrapper.LoginResult m_LoginResult;
-        private string m_AppID = "1542194956558397";
+        
+        private const string k_NoDescription = "No Description to retrieve";
 
         private void buttonLogin_Click(object sender, EventArgs e)
         {
             Clipboard.SetText("design.patterns");
-            textBoxAppID.Text = m_AppID;
+            textBoxAppID.Text = r_AppEngine.AppID;
 
             if (m_LoginResult == null)
             {
@@ -35,7 +38,7 @@ namespace BasicFacebookFeatures
 
         private void login()
         {
-            m_LoginResult = FacebookService.Login(
+            r_AppEngine.LoginResult = FacebookService.Login(
                 /// (This is Desig Patter's App ID. replace it with your own)
                 textBoxAppID.Text,
                 /// requested permissions:
@@ -55,6 +58,7 @@ namespace BasicFacebookFeatures
                 pictureBoxProfile.ImageLocation = m_LoginResult.LoggedInUser.PictureNormalURL;
                 buttonLogin.Enabled = false;
                 buttonLogout.Enabled = true;
+                buttonFetchData.Enabled = true;
             }
         }
 
@@ -63,7 +67,7 @@ namespace BasicFacebookFeatures
             FacebookService.LogoutWithUI();
             buttonLogin.Text = "Login";
             buttonLogin.BackColor = buttonLogout.BackColor;
-            m_LoginResult = null;
+            r_AppEngine.LoginResult = null;
             buttonLogin.Enabled = true;
             buttonLogout.Enabled = false;
         }
@@ -90,95 +94,155 @@ namespace BasicFacebookFeatures
         private void fetchUserLikedPages()
         {
             listBoxGroups.Items.Clear();
+            List<Page> userLikedPages = r_AppEngine.FetchUserLikedPages();
 
-            foreach(Page page in m_LoginResult.LoggedInUser.LikedPages)
-            {
-                listBoxGroups.Items.Add(page.Name);
-            }
-
-            if(listBoxGroups.Items.Count == 0)
+            if(userLikedPages.Count == 0)
             {
                 listBoxGroups.Items.Add("No Liked Pages to retrieve");
+            }
+            else
+            {
+                foreach(Page page in userLikedPages)
+                {
+                    listBoxGroups.Items.Add(page.Name);
+                }
             }
         }
 
         private void fetchUserEvents()
         {
-            listBoxEvents.Items.Clear();
-
-            foreach(Event fbEvent in m_LoginResult.LoggedInUser.Events)
+            try
             {
-                listBoxEvents.Items.Add(fbEvent.Name);
+                List<Event> userEvents = r_AppEngine.FetchUserEvents();
+                listBoxEvents.Items.Clear();
+
+                if(userEvents.Count == 0)
+                {
+                    listBoxEvents.Items.Add("No Events to retrieve");
+                }
+                else
+                {
+                    foreach(Event fbEvent in userEvents)
+                    {
+                        listBoxEvents.Items.Add(fbEvent.Name);
+                    }
+                }
             }
-
-            if(listBoxEvents.Items.Count == 0)
+            catch (Exception exception)
             {
-                listBoxEvents.Items.Add("No Events to retrieve");
+                MessageBox.Show($@"Error: {exception.Message}");
             }
         }
 
         private void fetchUserAlbums()
         {
-            listBoxAlbums.Items.Clear();
-
-            foreach(Album album in m_LoginResult.LoggedInUser.Albums)
+            try
             {
-                listBoxAlbums.Items.Add(album.Name);
-            }
+                List<Album> userAlbums = r_AppEngine.FetchUserAlbums();
+                listBoxAlbums.Items.Clear();
 
-            if(listBoxAlbums.Items.Count == 0)
-            {
-                listBoxAlbums.Items.Add("No Albums to retrieve");
+                if(userAlbums.Count == 0)
+                {
+                    listBoxAlbums.Items.Add("No Albums to retrieve");
+                }
+                else
+                {
+                    foreach(Album album in userAlbums)
+                    {
+                        listBoxAlbums.Items.Add(album.Name);
+                    }
+                }
             }
+            catch(Exception exception)
+            {
+                MessageBox.Show($@"Error: {exception.Message}");
+            }
+            
         }
 
         private void fetchUserPosts()
         {
-            listBoxUserPosts.Items.Clear();
-
-            foreach(Post post in m_LoginResult.LoggedInUser.Posts)
+            try
             {
-                if(post.Message != null)
+                List<Post> userPosts = r_AppEngine.FetchUserPosts();
+                listBoxUserPosts.Items.Clear();
+
+                if(userPosts.Count == 0)
                 {
-                    listBoxUserPosts.Items.Add(post.Message);
-                }
-                else if(post.Caption != null)
-                {
-                    listBoxUserPosts.Items.Add(post.Caption);
+                    listBoxUserPosts.Items.Add("No Posts to retrieve");
                 }
                 else
                 {
-                    listBoxUserPosts.Items.Add(string.Format("[{0}]", post.Type));
+                    foreach(Post post in userPosts)
+                    {
+                        listBoxUserPosts.Items.Add(post.Caption ?? string.Format("[{0}]", post.Type));
+                    }
                 }
             }
-
-            if(listBoxUserPosts.Items.Count == 0)
+            catch(Exception exception)
             {
-                listBoxUserPosts.Items.Add("No Posts to retrieve");
+                MessageBox.Show($@"Error: {exception.Message}");
             }
+            
         }
 
         private void listBoxEvents_SelectedIndexChanged(object sender, EventArgs e)
         {
             richTextBoxDescription.Clear();
-            richTextBoxDescription.Text = m_LoginResult.LoggedInUser.Events[listBoxEvents.SelectedIndex].Description;
+            try
+            {
+                richTextBoxDescription.Text = r_AppEngine.LoginResult.LoggedInUser.Events[listBoxEvents.SelectedIndex].Description;
+            }
+            catch(Exception exception)
+            {
+                if(r_AppEngine.LoginResult.LoggedInUser.Events.Count != 0)
+                {
+                    MessageBox.Show($@"Error: {exception.Message}");
+                }
+                richTextBoxDescription.Text = k_NoDescription;
+            }
         }
 
         private void listBoxGroups_SelectedIndexChanged(object sender, EventArgs e)
         {
             richTextBoxDescription.Clear();
-            richTextBoxDescription.Text = m_LoginResult.LoggedInUser.LikedPages[listBoxGroups.SelectedIndex].Description;
+            try
+            {
+                richTextBoxDescription.Text =
+                    m_LoginResult.LoggedInUser.LikedPages[listBoxGroups.SelectedIndex].Description;
+            }
+            catch(Exception exception)
+            {
+                if(m_LoginResult.LoggedInUser.LikedPages.Count != 0)
+                {
+                    MessageBox.Show($@"Error: {exception.Message}");
+                }
+
+                richTextBoxDescription.Text = k_NoDescription;
+            }
         }
 
         private void textBoxAppID_TextChanged(object sender, EventArgs e)
         {
-            m_AppID = textBoxAppID.Text;
+            r_AppEngine.AppID = textBoxAppID.Text;
         }
 
         private void listBoxUserPosts_SelectedIndexChanged(object sender, EventArgs e)
         {
             richTextBoxDescription.Clear();
-            richTextBoxDescription.Text = m_LoginResult.LoggedInUser.Posts[listBoxUserPosts.SelectedIndex].Message;
+            try
+            {
+                richTextBoxDescription.Text = m_LoginResult.LoggedInUser.Posts[listBoxUserPosts.SelectedIndex].Message;
+            }
+            catch (Exception exception)
+            {
+                if(m_LoginResult.LoggedInUser.Posts.Count != 0)
+                {
+                    MessageBox.Show($@"Error: {exception.Message}");
+                }
+
+                richTextBoxDescription.Text = k_NoDescription;
+            }
         }
     }
 }

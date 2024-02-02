@@ -125,6 +125,7 @@
             // 
             // buttonFetchData
             // 
+            this.buttonFetchData.Enabled = false;
             this.buttonFetchData.Location = new System.Drawing.Point(18, 196);
             this.buttonFetchData.Name = "buttonFetchData";
             this.buttonFetchData.Size = new System.Drawing.Size(182, 34);
