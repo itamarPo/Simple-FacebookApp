@@ -11,6 +11,8 @@ namespace AppEngine
     {
         public string UserName { get; set; }
 
+        public bool IsLoggedIn { get; set; }
+
         public LoginResult LoginResult { get; set; }
 
         public string AppID { get; set; } = "1542194956558397";
@@ -67,6 +69,18 @@ namespace AppEngine
             catch (Exception exception)
             {
                 throw new Exception($"Failed to fetch user albums: {exception.Message}");
+            }
+        }
+
+        public List<Group> FetchUserGroups()
+        {
+            try
+            {
+                return LoginResult.LoggedInUser.Groups.ToList();
+            }
+            catch(Exception exception)
+            {
+                throw new Exception($"Failed to fetch user groups: {exception.Message}");
             }
         }
     }
