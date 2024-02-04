@@ -22,7 +22,6 @@ namespace BasicFacebookFeatures
             FacebookWrapper.FacebookService.s_CollectionLimit = 25;
         }
 
-        
         private const string k_NoDescription = "No Description to retrieve";
 
         private void buttonLogin_Click(object sender, EventArgs e)
