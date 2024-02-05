@@ -33,10 +33,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.labelGroups = new System.Windows.Forms.Label();
-            this.buttonFetchGroups = new System.Windows.Forms.Button();
+            this.labelFavoriteTeams = new System.Windows.Forms.Label();
+            this.buttonFavoriteTeams = new System.Windows.Forms.Button();
             this.pictureBoxGroups = new System.Windows.Forms.PictureBox();
-            this.listBoxGroups = new System.Windows.Forms.ListBox();
+            this.listBoxFavoriteTeams = new System.Windows.Forms.ListBox();
             this.pictureBoxMyPosts = new System.Windows.Forms.PictureBox();
             this.pictureBoxLikedPages = new System.Windows.Forms.PictureBox();
             this.pictureBoxAlbums = new System.Windows.Forms.PictureBox();
@@ -116,10 +116,10 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.labelGroups);
-            this.tabPage1.Controls.Add(this.buttonFetchGroups);
+            this.tabPage1.Controls.Add(this.labelFavoriteTeams);
+            this.tabPage1.Controls.Add(this.buttonFavoriteTeams);
             this.tabPage1.Controls.Add(this.pictureBoxGroups);
-            this.tabPage1.Controls.Add(this.listBoxGroups);
+            this.tabPage1.Controls.Add(this.listBoxFavoriteTeams);
             this.tabPage1.Controls.Add(this.pictureBoxMyPosts);
             this.tabPage1.Controls.Add(this.pictureBoxLikedPages);
             this.tabPage1.Controls.Add(this.pictureBoxAlbums);
@@ -152,25 +152,25 @@
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // labelGroups
+            // labelFavoriteTeams
             // 
-            this.labelGroups.AutoSize = true;
-            this.labelGroups.Location = new System.Drawing.Point(826, 229);
-            this.labelGroups.Name = "labelGroups";
-            this.labelGroups.Size = new System.Drawing.Size(82, 18);
-            this.labelGroups.TabIndex = 78;
-            this.labelGroups.Text = "My Groups";
+            this.labelFavoriteTeams.AutoSize = true;
+            this.labelFavoriteTeams.Location = new System.Drawing.Point(826, 229);
+            this.labelFavoriteTeams.Name = "labelFavoriteTeams";
+            this.labelFavoriteTeams.Size = new System.Drawing.Size(135, 18);
+            this.labelFavoriteTeams.TabIndex = 78;
+            this.labelFavoriteTeams.Text = "My Favorite Teams";
             // 
-            // buttonFetchGroups
+            // buttonFavoriteTeams
             // 
-            this.buttonFetchGroups.Enabled = false;
-            this.buttonFetchGroups.Location = new System.Drawing.Point(826, 471);
-            this.buttonFetchGroups.Name = "buttonFetchGroups";
-            this.buttonFetchGroups.Size = new System.Drawing.Size(118, 29);
-            this.buttonFetchGroups.TabIndex = 77;
-            this.buttonFetchGroups.Text = "Fetch Groups";
-            this.buttonFetchGroups.UseVisualStyleBackColor = true;
-            this.buttonFetchGroups.Click += new System.EventHandler(this.buttonFetchGroups_Click);
+            this.buttonFavoriteTeams.Enabled = false;
+            this.buttonFavoriteTeams.Location = new System.Drawing.Point(826, 471);
+            this.buttonFavoriteTeams.Name = "buttonFavoriteTeams";
+            this.buttonFavoriteTeams.Size = new System.Drawing.Size(165, 29);
+            this.buttonFavoriteTeams.TabIndex = 77;
+            this.buttonFavoriteTeams.Text = "Fetch Favorite Teams";
+            this.buttonFavoriteTeams.UseVisualStyleBackColor = true;
+            this.buttonFavoriteTeams.Click += new System.EventHandler(this.buttonFetchGroups_Click);
             // 
             // pictureBoxGroups
             // 
@@ -180,15 +180,15 @@
             this.pictureBoxGroups.TabIndex = 76;
             this.pictureBoxGroups.TabStop = false;
             // 
-            // listBoxGroups
+            // listBoxFavoriteTeams
             // 
-            this.listBoxGroups.FormattingEnabled = true;
-            this.listBoxGroups.ItemHeight = 18;
-            this.listBoxGroups.Location = new System.Drawing.Point(826, 248);
-            this.listBoxGroups.Name = "listBoxGroups";
-            this.listBoxGroups.Size = new System.Drawing.Size(139, 220);
-            this.listBoxGroups.TabIndex = 75;
-            this.listBoxGroups.SelectedIndexChanged += new System.EventHandler(this.listBoxGroups_SelectedIndexChanged);
+            this.listBoxFavoriteTeams.FormattingEnabled = true;
+            this.listBoxFavoriteTeams.ItemHeight = 18;
+            this.listBoxFavoriteTeams.Location = new System.Drawing.Point(826, 248);
+            this.listBoxFavoriteTeams.Name = "listBoxFavoriteTeams";
+            this.listBoxFavoriteTeams.Size = new System.Drawing.Size(139, 220);
+            this.listBoxFavoriteTeams.TabIndex = 75;
+            this.listBoxFavoriteTeams.SelectedIndexChanged += new System.EventHandler(this.listBoxFavoriteTeams_SelectedIndexChanged);
             // 
             // pictureBoxMyPosts
             // 
@@ -451,9 +451,9 @@
         private System.Windows.Forms.PictureBox pictureBoxLikedPages;
         private System.Windows.Forms.PictureBox pictureBoxAlbums;
         private System.Windows.Forms.PictureBox pictureBoxEvents;
-        private System.Windows.Forms.ListBox listBoxGroups;
-        private System.Windows.Forms.Label labelGroups;
-        private System.Windows.Forms.Button buttonFetchGroups;
+        private System.Windows.Forms.ListBox listBoxFavoriteTeams;
+        private System.Windows.Forms.Label labelFavoriteTeams;
+        private System.Windows.Forms.Button buttonFavoriteTeams;
         private System.Windows.Forms.PictureBox pictureBoxGroups;
     }
 }

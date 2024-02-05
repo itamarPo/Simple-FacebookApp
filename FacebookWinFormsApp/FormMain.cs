@@ -29,7 +29,7 @@ namespace BasicFacebookFeatures
             Clipboard.SetText("design.patterns");
             textBoxAppID.Text = r_AppEngine.AppID;
 
-            if (m_LoginResult == null)
+            if (r_AppEngine.LoginResult == null)
             {
                 login();
             }
@@ -46,7 +46,8 @@ namespace BasicFacebookFeatures
                 "user_events",
                 "user_likes",
                 "user_posts",
-                "user_photos"
+                "user_photos",
+                "user_birthday"
                 /// add any relevant permissions
                 );
             try
@@ -75,7 +76,7 @@ namespace BasicFacebookFeatures
             buttonFetchEvents.Enabled = true;
             buttonFetchLikedPages.Enabled = true;
             buttonFetchPosts.Enabled = true;
-            buttonFetchGroups.Enabled = true;
+            buttonFavoriteTeams.Enabled = true;
         }
 
         private void disableButtons()
@@ -85,7 +86,7 @@ namespace BasicFacebookFeatures
             buttonFetchEvents.Enabled = false;
             buttonFetchLikedPages.Enabled = false;
             buttonFetchPosts.Enabled = false;
-            buttonFetchGroups.Enabled = false;
+            buttonFavoriteTeams.Enabled = false;
         }
 
         private void buttonLogout_Click(object sender, EventArgs e)
@@ -132,24 +133,24 @@ namespace BasicFacebookFeatures
             fetchUserAlbums();
             fetchUserEvents();
             fetchUserLikedPages();
-            fetchUserGroups();
+            fetchUserFavoriteTeams();
         }
 
-        private void fetchUserGroups()
+        private void fetchUserFavoriteTeams()
         {
             try
             {
-                List<Group> userGroups = r_AppEngine.FetchUserGroups();
-                listBoxGroups.Items.Clear();
-                if(userGroups.Count == 0)
+                List<Page> favoriteTeams = r_AppEngine.FetchFavoriteTeams();
+                listBoxFavoriteTeams.Items.Clear();
+                if(favoriteTeams.Count == 0)
                 {
-                    listBoxGroups.Items.Add("No Groups to retrieve");
+                    listBoxFavoriteTeams.Items.Add("No Teams to retrieve");
                 }
                 else
                 {
-                    foreach(Group group in userGroups)
+                    foreach(Page team in favoriteTeams)
                     {
-                        listBoxGroups.Items.Add(group.Name);
+                        listBoxFavoriteTeams.Items.Add(team.Name);
                     }
                 }
             }
@@ -257,41 +258,59 @@ namespace BasicFacebookFeatures
         private void listBoxEvents_SelectedIndexChanged(object sender, EventArgs e)
         {
             richTextBoxDescription.Clear();
-            try
+            
+            if(r_AppEngine.LoginResult.LoggedInUser.Events.Count == 0)
             {
-                richTextBoxDescription.Text = r_AppEngine.LoginResult.LoggedInUser.Events[listBoxEvents.SelectedIndex].Description;
-                pictureBoxEvents.Load(r_AppEngine.LoginResult.LoggedInUser.Events[listBoxEvents.SelectedIndex].PictureNormalURL);
-            }
-            catch(Exception exception)
-            {
-                if(r_AppEngine.LoginResult.LoggedInUser.Events.Count != 0 ||
-                   r_AppEngine.LoginResult.LoggedInUser.Events[listBoxEvents.SelectedIndex].Pictures != null)
-                {
-                    MessageBox.Show($@"Error: {exception.Message}");
-                }
-
                 richTextBoxDescription.Text = k_NoDescription;
+            }
+            else
+            {
+                try
+                {
+                    richTextBoxDescription.Text = r_AppEngine.LoginResult.LoggedInUser
+                        .Events[listBoxEvents.SelectedIndex].Description;
+                    pictureBoxEvents.Load(
+                        r_AppEngine.LoginResult.LoggedInUser.Events[listBoxEvents.SelectedIndex].PictureNormalURL);
+                }
+                catch(Exception exception)
+                {
+                    if(r_AppEngine.LoginResult.LoggedInUser.Events[listBoxEvents.SelectedIndex].Pictures != null)
+                    {
+                        MessageBox.Show($@"Error: {exception.Message}");
+                    }
+
+                    richTextBoxDescription.Text = k_NoDescription;
+                }
             }
         }
 
         private void listBoxLikedPages_SelectedIndexChanged(object sender, EventArgs e)
         {
             richTextBoxDescription.Clear();
-            try
+            if(r_AppEngine.LoginResult.LoggedInUser.LikedPages.Count == 0)
             {
-                richTextBoxDescription.Text =
-                    r_AppEngine.LoginResult.LoggedInUser.LikedPages[listBoxLikedPages.SelectedIndex].Description;
-                pictureBoxLikedPages.Load(r_AppEngine.LoginResult.LoggedInUser.LikedPages[listBoxLikedPages.SelectedIndex].PictureNormalURL);
-            }
-            catch(Exception exception)
-            {
-                if(r_AppEngine.LoginResult.LoggedInUser.LikedPages.Count != 0 ||
-                   r_AppEngine.LoginResult.LoggedInUser.LikedPages[listBoxLikedPages.SelectedIndex].Pictures != null)
-                {
-                    MessageBox.Show($@"Error: {exception.Message}");
-                }
-
                 richTextBoxDescription.Text = k_NoDescription;
+            }
+            else
+            {
+                try
+                {
+                    richTextBoxDescription.Text = r_AppEngine.LoginResult.LoggedInUser
+                        .LikedPages[listBoxLikedPages.SelectedIndex].Description;
+                    pictureBoxLikedPages.Load(
+                        r_AppEngine.LoginResult.LoggedInUser.LikedPages[listBoxLikedPages.SelectedIndex]
+                            .PictureNormalURL);
+                }
+                catch(Exception exception)
+                {
+                    if(r_AppEngine.LoginResult.LoggedInUser.LikedPages.Count != 0 || r_AppEngine.LoginResult
+                           .LoggedInUser.LikedPages[listBoxLikedPages.SelectedIndex].Pictures != null)
+                    {
+                        MessageBox.Show($@"Error: {exception.Message}");
+                    }
+
+                    richTextBoxDescription.Text = k_NoDescription;
+                }
             }
         }
 
@@ -303,20 +322,30 @@ namespace BasicFacebookFeatures
         private void listBoxUserPosts_SelectedIndexChanged(object sender, EventArgs e)
         {
             richTextBoxDescription.Clear();
-            try
+            
+            if(r_AppEngine.LoginResult.LoggedInUser.Posts.Count == 0)
             {
-                richTextBoxDescription.Text = r_AppEngine.LoginResult.LoggedInUser.Posts[listBoxUserPosts.SelectedIndex].Message;
-                pictureBoxMyPosts.Load(r_AppEngine.LoginResult.LoggedInUser.Posts[listBoxUserPosts.SelectedIndex].PictureURL);
-            }
-            catch (Exception exception)
-            {
-                if(r_AppEngine.LoginResult.LoggedInUser.Posts.Count != 0 ||
-                   r_AppEngine.LoginResult.LoggedInUser.Posts[listBoxLikedPages.SelectedIndex].PictureURL != null)
-                {
-                    MessageBox.Show($@"Error: {exception.Message}");
-                }
-
                 richTextBoxDescription.Text = k_NoDescription;
+            }
+            else
+            {
+                try
+                {
+                    richTextBoxDescription.Text = r_AppEngine.LoginResult.LoggedInUser
+                        .Posts[listBoxUserPosts.SelectedIndex].Message;
+                    pictureBoxMyPosts.Load(
+                        r_AppEngine.LoginResult.LoggedInUser.Posts[listBoxUserPosts.SelectedIndex].PictureURL);
+                }
+                catch(Exception exception)
+                {
+                    if(r_AppEngine.LoginResult.LoggedInUser
+                           .Posts[listBoxLikedPages.SelectedIndex].PictureURL != null)
+                    {
+                        MessageBox.Show($@"Error: {exception.Message}");
+                    }
+
+                    richTextBoxDescription.Text = k_NoDescription;
+                }
             }
         }
 
@@ -342,30 +371,36 @@ namespace BasicFacebookFeatures
 
         private void buttonFetchGroups_Click(object sender, EventArgs e)
         {
-            fetchUserGroups();
+            fetchUserFavoriteTeams();
         }
 
-        private void listBoxGroups_SelectedIndexChanged(object sender, EventArgs e)
+        private void listBoxFavoriteTeams_SelectedIndexChanged(object sender, EventArgs e)
         {
             richTextBoxDescription.Clear();
-            try
+            if(r_AppEngine.LoginResult.LoggedInUser.FavofriteTeams.Length == 0)
             {
-                richTextBoxDescription.Text = r_AppEngine.LoginResult.LoggedInUser.Groups[listBoxGroups.SelectedIndex]
-                    .Description;
-                pictureBoxGroups.Load(
-                    r_AppEngine.LoginResult.LoggedInUser.Groups[listBoxGroups.SelectedIndex].PictureNormalURL);
-            }
-            catch(Exception exception)
-            {
-                if(r_AppEngine.LoginResult.LoggedInUser.Groups.Count != 0
-                   || r_AppEngine.LoginResult.LoggedInUser.Groups[listBoxGroups.SelectedIndex].Pictures != null)
-                {
-                    MessageBox.Show($@"Error: {exception.Message}");
-                }
-
                 richTextBoxDescription.Text = k_NoDescription;
             }
-        }
+            else
+            {
+                try
+                {
+                    richTextBoxDescription.Text = r_AppEngine.LoginResult.LoggedInUser
+                        .Groups[listBoxFavoriteTeams.SelectedIndex].Description;
+                    pictureBoxGroups.Load(
+                        r_AppEngine.LoginResult.LoggedInUser.FavofriteTeams[listBoxFavoriteTeams.SelectedIndex]
+                            .PictureURL);
+                }
+                catch(Exception exception)
+                {
+                    if(r_AppEngine.LoginResult.LoggedInUser.FavofriteTeams[listBoxFavoriteTeams.SelectedIndex].PictureURL != null)
+                    {
+                        MessageBox.Show($@"Error: {exception.Message}");
+                    }
 
+                    richTextBoxDescription.Text = k_NoDescription;
+                }
+            }
+        }
     }
 }

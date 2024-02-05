@@ -72,11 +72,11 @@ namespace AppEngine
             }
         }
 
-        public List<Group> FetchUserGroups()
+        public List<Page> FetchFavoriteTeams()
         {
             try
             {
-                return LoginResult.LoggedInUser.Groups.ToList();
+                return LoginResult.LoggedInUser.FavofriteTeams.ToList();
             }
             catch(Exception exception)
             {
