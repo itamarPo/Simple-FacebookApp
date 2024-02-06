@@ -28,6 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.buttonLogin = new System.Windows.Forms.Button();
             this.buttonLogout = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -59,6 +63,15 @@
             this.pictureBoxProfile = new System.Windows.Forms.PictureBox();
             this.textBoxAppID = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.labelUserPostCreatedMonthGraph = new System.Windows.Forms.Label();
+            this.buttonFetchUserPostCreatedPerMonthGraph = new System.Windows.Forms.Button();
+            this.chartUserCreatedPostsPerMonth = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.pictureBoxEventsOnUserBirthdayMonth = new System.Windows.Forms.PictureBox();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.labelEventDescription = new System.Windows.Forms.Label();
+            this.listBoxEventsOnUserBirthdayMonth = new System.Windows.Forms.ListBox();
+            this.buttonShowEventOnBirthdayMonth = new System.Windows.Forms.Button();
+            this.labelUserBirthDayMonth = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGroups)).BeginInit();
@@ -67,6 +80,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAlbums)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEvents)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfile)).BeginInit();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartUserCreatedPostsPerMonth)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEventsOnUserBirthdayMonth)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonLogin
@@ -390,6 +406,15 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.labelUserPostCreatedMonthGraph);
+            this.tabPage2.Controls.Add(this.buttonFetchUserPostCreatedPerMonthGraph);
+            this.tabPage2.Controls.Add(this.chartUserCreatedPostsPerMonth);
+            this.tabPage2.Controls.Add(this.pictureBoxEventsOnUserBirthdayMonth);
+            this.tabPage2.Controls.Add(this.richTextBox1);
+            this.tabPage2.Controls.Add(this.labelEventDescription);
+            this.tabPage2.Controls.Add(this.listBoxEventsOnUserBirthdayMonth);
+            this.tabPage2.Controls.Add(this.buttonShowEventOnBirthdayMonth);
+            this.tabPage2.Controls.Add(this.labelUserBirthDayMonth);
             this.tabPage2.Location = new System.Drawing.Point(4, 27);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -397,6 +422,97 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // labelUserPostCreatedMonthGraph
+            // 
+            this.labelUserPostCreatedMonthGraph.AutoSize = true;
+            this.labelUserPostCreatedMonthGraph.Location = new System.Drawing.Point(9, 260);
+            this.labelUserPostCreatedMonthGraph.Name = "labelUserPostCreatedMonthGraph";
+            this.labelUserPostCreatedMonthGraph.Size = new System.Drawing.Size(245, 18);
+            this.labelUserPostCreatedMonthGraph.TabIndex = 8;
+            this.labelUserPostCreatedMonthGraph.Text = "The User\'s created posts per Month";
+            // 
+            // buttonFetchUserPostCreatedPerMonthGraph
+            // 
+            this.buttonFetchUserPostCreatedPerMonthGraph.Location = new System.Drawing.Point(31, 281);
+            this.buttonFetchUserPostCreatedPerMonthGraph.Name = "buttonFetchUserPostCreatedPerMonthGraph";
+            this.buttonFetchUserPostCreatedPerMonthGraph.Size = new System.Drawing.Size(173, 48);
+            this.buttonFetchUserPostCreatedPerMonthGraph.TabIndex = 7;
+            this.buttonFetchUserPostCreatedPerMonthGraph.Text = "Fetch User\'s Created Posts per Month Graph";
+            this.buttonFetchUserPostCreatedPerMonthGraph.UseVisualStyleBackColor = true;
+            this.buttonFetchUserPostCreatedPerMonthGraph.Click += new System.EventHandler(this.buttonFetchUserPostCreatedPerMonthGraph_Click);
+            // 
+            // chartUserCreatedPostsPerMonth
+            // 
+            chartArea3.Name = "ChartArea1";
+            this.chartUserCreatedPostsPerMonth.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.chartUserCreatedPostsPerMonth.Legends.Add(legend3);
+            this.chartUserCreatedPostsPerMonth.Location = new System.Drawing.Point(394, 279);
+            this.chartUserCreatedPostsPerMonth.Name = "chartUserCreatedPostsPerMonth";
+            series3.ChartArea = "ChartArea1";
+            series3.Legend = "Legend1";
+            series3.Name = "Number of Posts";
+            this.chartUserCreatedPostsPerMonth.Series.Add(series3);
+            this.chartUserCreatedPostsPerMonth.Size = new System.Drawing.Size(479, 297);
+            this.chartUserCreatedPostsPerMonth.TabIndex = 6;
+            this.chartUserCreatedPostsPerMonth.Text = "chart1";
+            title3.Name = "TitleUserCreatedPostsPerMonthGraph";
+            title3.Text = "Users Created Posts Per Month";
+            this.chartUserCreatedPostsPerMonth.Titles.Add(title3);
+            // 
+            // pictureBoxEventsOnUserBirthdayMonth
+            // 
+            this.pictureBoxEventsOnUserBirthdayMonth.Location = new System.Drawing.Point(555, 48);
+            this.pictureBoxEventsOnUserBirthdayMonth.Name = "pictureBoxEventsOnUserBirthdayMonth";
+            this.pictureBoxEventsOnUserBirthdayMonth.Size = new System.Drawing.Size(151, 148);
+            this.pictureBoxEventsOnUserBirthdayMonth.TabIndex = 5;
+            this.pictureBoxEventsOnUserBirthdayMonth.TabStop = false;
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(748, 48);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(274, 148);
+            this.richTextBox1.TabIndex = 4;
+            this.richTextBox1.Text = "";
+            // 
+            // labelEventDescription
+            // 
+            this.labelEventDescription.AutoSize = true;
+            this.labelEventDescription.Location = new System.Drawing.Point(745, 27);
+            this.labelEventDescription.Name = "labelEventDescription";
+            this.labelEventDescription.Size = new System.Drawing.Size(128, 18);
+            this.labelEventDescription.TabIndex = 3;
+            this.labelEventDescription.Text = "Event Description:";
+            // 
+            // listBoxEventsOnUserBirthdayMonth
+            // 
+            this.listBoxEventsOnUserBirthdayMonth.FormattingEnabled = true;
+            this.listBoxEventsOnUserBirthdayMonth.ItemHeight = 18;
+            this.listBoxEventsOnUserBirthdayMonth.Location = new System.Drawing.Point(254, 48);
+            this.listBoxEventsOnUserBirthdayMonth.Name = "listBoxEventsOnUserBirthdayMonth";
+            this.listBoxEventsOnUserBirthdayMonth.Size = new System.Drawing.Size(272, 148);
+            this.listBoxEventsOnUserBirthdayMonth.TabIndex = 2;
+            // 
+            // buttonShowEventOnBirthdayMonth
+            // 
+            this.buttonShowEventOnBirthdayMonth.Location = new System.Drawing.Point(31, 48);
+            this.buttonShowEventOnBirthdayMonth.Name = "buttonShowEventOnBirthdayMonth";
+            this.buttonShowEventOnBirthdayMonth.Size = new System.Drawing.Size(179, 49);
+            this.buttonShowEventOnBirthdayMonth.TabIndex = 1;
+            this.buttonShowEventOnBirthdayMonth.Text = "Show Events On Users birthday Month";
+            this.buttonShowEventOnBirthdayMonth.UseVisualStyleBackColor = true;
+            this.buttonShowEventOnBirthdayMonth.Click += new System.EventHandler(this.buttonShowEventOnBirthdayMonth_Click);
+            // 
+            // labelUserBirthDayMonth
+            // 
+            this.labelUserBirthDayMonth.AutoSize = true;
+            this.labelUserBirthDayMonth.Location = new System.Drawing.Point(28, 27);
+            this.labelUserBirthDayMonth.Name = "labelUserBirthDayMonth";
+            this.labelUserBirthDayMonth.Size = new System.Drawing.Size(182, 18);
+            this.labelUserBirthDayMonth.TabIndex = 0;
+            this.labelUserBirthDayMonth.Text = "The user\'s birthday month:";
             // 
             // FormMain
             // 
@@ -418,6 +534,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAlbums)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEvents)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfile)).EndInit();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartUserCreatedPostsPerMonth)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEventsOnUserBirthdayMonth)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -455,6 +575,15 @@
         private System.Windows.Forms.Label labelFavoriteTeams;
         private System.Windows.Forms.Button buttonFavoriteTeams;
         private System.Windows.Forms.PictureBox pictureBoxGroups;
+        private System.Windows.Forms.Label labelUserBirthDayMonth;
+        private System.Windows.Forms.ListBox listBoxEventsOnUserBirthdayMonth;
+        private System.Windows.Forms.Button buttonShowEventOnBirthdayMonth;
+        private System.Windows.Forms.PictureBox pictureBoxEventsOnUserBirthdayMonth;
+        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.Label labelEventDescription;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartUserCreatedPostsPerMonth;
+        private System.Windows.Forms.Label labelUserPostCreatedMonthGraph;
+        private System.Windows.Forms.Button buttonFetchUserPostCreatedPerMonthGraph;
     }
 }
 

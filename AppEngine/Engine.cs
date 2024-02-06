@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -82,6 +83,53 @@ namespace AppEngine
             {
                 throw new Exception($"Failed to fetch user groups: {exception.Message}");
             }
+        }
+
+        public Dictionary<string, int> FetchUserPostCreatedPerMonth()
+        {
+            List<Post> userPosts = FetchUserPosts();
+            Dictionary<string, int> postsPerMonth = new Dictionary<string, int>();
+            foreach(Post post in userPosts)
+            {
+                if(post.CreatedTime != null)
+                {
+                    if(postsPerMonth.ContainsKey(post.CreatedTime.Value.Month.ToString()))
+                    {
+                        postsPerMonth[post.CreatedTime.Value.Month.ToString()]++;
+                    }
+                    else
+                    {
+                        postsPerMonth.Add(post.CreatedTime.Value.Month.ToString(), 1);
+                    }
+                }
+            }
+
+            return postsPerMonth;
+        }
+
+        public List<Event> FetchEventsOnBirthdayMonth()
+        {
+            List<Event> userEvents = FetchUserEvents();
+
+            foreach(Event userEvent in userEvents)
+            {
+                if(userEvent.StartTime != null)
+                {
+                    //if(userEvent.StartTime.Value.Month == LoginResult.LoggedInUser.Birthday)
+                   // {
+                     //   return userEvents;
+                    //}
+                    
+                }
+            }
+
+            return userEvents;
+        }
+
+        private int getBirthdayMonth()
+        {
+            string birthday = LoginResult.LoggedInUser.Birthday;
+            return 0;
         }
     }
 }

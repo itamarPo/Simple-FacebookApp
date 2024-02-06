@@ -402,5 +402,21 @@ namespace BasicFacebookFeatures
                 }
             }
         }
+
+        private void buttonFetchUserPostCreatedPerMonthGraph_Click(object sender, EventArgs e)
+        {
+            Dictionary<string, int> userPostsCreatedPerMonth = r_AppEngine.FetchUserPostCreatedPerMonth();
+            
+            chartUserCreatedPostsPerMonth.Series["Posts"].Points.Clear();
+            foreach(KeyValuePair<string, int> pair in userPostsCreatedPerMonth)
+            {
+                chartUserCreatedPostsPerMonth.Series["Posts"].Points.AddXY(pair.Key, pair.Value);
+            }
+        }
+
+        private void buttonShowEventOnBirthdayMonth_Click(object sender, EventArgs e)
+        {
+            List<Event> eventsOnBirthdayMonth = r_AppEngine.FetchEventsOnBirthdayMonth();
+        }
     }
 }
