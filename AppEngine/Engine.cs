@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using FacebookWrapper;
@@ -29,7 +30,7 @@ namespace AppEngine
             {
                 userPosts.AddRange(LoginResult.LoggedInUser.Posts.Where(post => post.Message != null));
             }
-            catch (Exception exception)
+            catch(Exception exception)
             {
                 throw new Exception($"Failed to fetch user posts: {exception.Message}");
             }
@@ -43,7 +44,7 @@ namespace AppEngine
             {
                 return LoginResult.LoggedInUser.LikedPages.ToList();
             }
-            catch (Exception exception)
+            catch(Exception exception)
             {
                 throw new Exception($"Failed to fetch user liked pages: {exception.Message}");
             }
@@ -55,7 +56,7 @@ namespace AppEngine
             {
                 return LoginResult.LoggedInUser.Events.ToList();
             }
-            catch (Exception exception)
+            catch(Exception exception)
             {
                 throw new Exception($"Failed to fetch user events: {exception.Message}");
             }
@@ -67,7 +68,7 @@ namespace AppEngine
             {
                 return LoginResult.LoggedInUser.Albums.ToList();
             }
-            catch (Exception exception)
+            catch(Exception exception)
             {
                 throw new Exception($"Failed to fetch user albums: {exception.Message}");
             }
@@ -87,20 +88,16 @@ namespace AppEngine
 
         public Dictionary<string, int> FetchUserPostCreatedPerMonth()
         {
+            string postMonth;
             List<Post> userPosts = FetchUserPosts();
-            Dictionary<string, int> postsPerMonth = new Dictionary<string, int>();
+            Dictionary<string, int> postsPerMonth = monthDictionary();
+
             foreach(Post post in userPosts)
             {
                 if(post.CreatedTime != null)
                 {
-                    if(postsPerMonth.ContainsKey(post.CreatedTime.Value.Month.ToString()))
-                    {
-                        postsPerMonth[post.CreatedTime.Value.Month.ToString()]++;
-                    }
-                    else
-                    {
-                        postsPerMonth.Add(post.CreatedTime.Value.Month.ToString(), 1);
-                    }
+                    postMonth = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(post.CreatedTime.Value.Month);
+                    postsPerMonth[postMonth]++;
                 }
             }
 
@@ -109,17 +106,17 @@ namespace AppEngine
 
         public List<Event> FetchEventsOnBirthdayMonth()
         {
+            int birthdayMonth = getBirthdayMonth();
             List<Event> userEvents = FetchUserEvents();
 
             foreach(Event userEvent in userEvents)
             {
                 if(userEvent.StartTime != null)
                 {
-                    //if(userEvent.StartTime.Value.Month == LoginResult.LoggedInUser.Birthday)
-                   // {
-                     //   return userEvents;
-                    //}
-                    
+                    if(userEvent.StartTime.Value.Month == birthdayMonth)
+                    {
+                        userEvents.Add(userEvent);
+                    }
                 }
             }
 
@@ -128,8 +125,21 @@ namespace AppEngine
 
         private int getBirthdayMonth()
         {
+            //facebook returns the birthday date in the format MM/DD/YYYY as string
             string birthday = LoginResult.LoggedInUser.Birthday;
-            return 0;
+            return int.Parse(birthday.Substring(0, 2)); //returns the month
+        }
+
+        private Dictionary<string, int> monthDictionary()
+        {
+            Dictionary<string, int> monthDictionary = new Dictionary<string, int>();
+
+            for(int i = 1; i <= 12; i++)
+            {
+                monthDictionary.Add(CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(i), 0);
+            }
+
+            return monthDictionary;
         }
     }
 }

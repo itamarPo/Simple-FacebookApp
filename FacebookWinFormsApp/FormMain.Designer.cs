@@ -28,15 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.buttonLogin = new System.Windows.Forms.Button();
             this.buttonLogout = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabControl = new System.Windows.Forms.TabControl();
+            this.tabPageRegularFeatures = new System.Windows.Forms.TabPage();
+            this.labelPleaseLogin = new System.Windows.Forms.Label();
+            this.buttonAddAppID = new System.Windows.Forms.Button();
+            this.comboBoxAppID = new System.Windows.Forms.ComboBox();
             this.labelFavoriteTeams = new System.Windows.Forms.Label();
             this.buttonFavoriteTeams = new System.Windows.Forms.Button();
             this.pictureBoxGroups = new System.Windows.Forms.PictureBox();
@@ -61,26 +64,25 @@
             this.listBoxAlbums = new System.Windows.Forms.ListBox();
             this.listBoxEvents = new System.Windows.Forms.ListBox();
             this.pictureBoxProfile = new System.Windows.Forms.PictureBox();
-            this.textBoxAppID = new System.Windows.Forms.TextBox();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPageSpecialFeatures = new System.Windows.Forms.TabPage();
             this.labelUserPostCreatedMonthGraph = new System.Windows.Forms.Label();
             this.buttonFetchUserPostCreatedPerMonthGraph = new System.Windows.Forms.Button();
             this.chartUserCreatedPostsPerMonth = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.pictureBoxEventsOnUserBirthdayMonth = new System.Windows.Forms.PictureBox();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.richTextBoxEventOnUserBirthDayMonth = new System.Windows.Forms.RichTextBox();
             this.labelEventDescription = new System.Windows.Forms.Label();
             this.listBoxEventsOnUserBirthdayMonth = new System.Windows.Forms.ListBox();
             this.buttonShowEventOnBirthdayMonth = new System.Windows.Forms.Button();
             this.labelUserBirthDayMonth = new System.Windows.Forms.Label();
-            this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.tabControl.SuspendLayout();
+            this.tabPageRegularFeatures.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGroups)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMyPosts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLikedPages)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAlbums)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEvents)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfile)).BeginInit();
-            this.tabPage2.SuspendLayout();
+            this.tabPageSpecialFeatures.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartUserCreatedPostsPerMonth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEventsOnUserBirthdayMonth)).BeginInit();
             this.SuspendLayout();
@@ -114,59 +116,94 @@
             this.label1.Location = new System.Drawing.Point(314, 17);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(559, 36);
+            this.label1.Size = new System.Drawing.Size(458, 54);
             this.label1.TabIndex = 53;
-            this.label1.Text = "This is the AppID of \"Design Patterns App 2.4\". The grader will use it to test yo" +
-    "ur app.\r\nType here your own AppID to test it:";
+            this.label1.Text = "Welcome. Please Login to continue.\r\nIf you desire to add another aplication id Pr" +
+    "ess the Add button.\r\nThe default values of the combo box contains my app ID and " +
+    "desig\'s.";
             // 
-            // tabControl1
+            // tabControl
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1243, 697);
-            this.tabControl1.TabIndex = 54;
+            this.tabControl.Controls.Add(this.tabPageRegularFeatures);
+            this.tabControl.Controls.Add(this.tabPageSpecialFeatures);
+            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl.Location = new System.Drawing.Point(0, 0);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(1243, 697);
+            this.tabControl.TabIndex = 54;
             // 
-            // tabPage1
+            // tabPageRegularFeatures
             // 
-            this.tabPage1.Controls.Add(this.labelFavoriteTeams);
-            this.tabPage1.Controls.Add(this.buttonFavoriteTeams);
-            this.tabPage1.Controls.Add(this.pictureBoxGroups);
-            this.tabPage1.Controls.Add(this.listBoxFavoriteTeams);
-            this.tabPage1.Controls.Add(this.pictureBoxMyPosts);
-            this.tabPage1.Controls.Add(this.pictureBoxLikedPages);
-            this.tabPage1.Controls.Add(this.pictureBoxAlbums);
-            this.tabPage1.Controls.Add(this.pictureBoxEvents);
-            this.tabPage1.Controls.Add(this.buttonFetchPosts);
-            this.tabPage1.Controls.Add(this.buttonFetchLikedPages);
-            this.tabPage1.Controls.Add(this.buttonFetchAlbums);
-            this.tabPage1.Controls.Add(this.buttonFetchEvents);
-            this.tabPage1.Controls.Add(this.buttonFetchAllData);
-            this.tabPage1.Controls.Add(this.labelDescription);
-            this.tabPage1.Controls.Add(this.labelListBoxUserPosts);
-            this.tabPage1.Controls.Add(this.labelListBoxGrops);
-            this.tabPage1.Controls.Add(this.labelListBoxAlbums);
-            this.tabPage1.Controls.Add(this.labelBoxEvents);
-            this.tabPage1.Controls.Add(this.richTextBoxDescription);
-            this.tabPage1.Controls.Add(this.listBoxUserPosts);
-            this.tabPage1.Controls.Add(this.listBoxLikedPages);
-            this.tabPage1.Controls.Add(this.listBoxAlbums);
-            this.tabPage1.Controls.Add(this.listBoxEvents);
-            this.tabPage1.Controls.Add(this.pictureBoxProfile);
-            this.tabPage1.Controls.Add(this.textBoxAppID);
-            this.tabPage1.Controls.Add(this.label1);
-            this.tabPage1.Controls.Add(this.buttonLogout);
-            this.tabPage1.Controls.Add(this.buttonLogin);
-            this.tabPage1.Location = new System.Drawing.Point(4, 27);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1235, 666);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tabPageRegularFeatures.Controls.Add(this.labelPleaseLogin);
+            this.tabPageRegularFeatures.Controls.Add(this.buttonAddAppID);
+            this.tabPageRegularFeatures.Controls.Add(this.comboBoxAppID);
+            this.tabPageRegularFeatures.Controls.Add(this.labelFavoriteTeams);
+            this.tabPageRegularFeatures.Controls.Add(this.buttonFavoriteTeams);
+            this.tabPageRegularFeatures.Controls.Add(this.pictureBoxGroups);
+            this.tabPageRegularFeatures.Controls.Add(this.listBoxFavoriteTeams);
+            this.tabPageRegularFeatures.Controls.Add(this.pictureBoxMyPosts);
+            this.tabPageRegularFeatures.Controls.Add(this.pictureBoxLikedPages);
+            this.tabPageRegularFeatures.Controls.Add(this.pictureBoxAlbums);
+            this.tabPageRegularFeatures.Controls.Add(this.pictureBoxEvents);
+            this.tabPageRegularFeatures.Controls.Add(this.buttonFetchPosts);
+            this.tabPageRegularFeatures.Controls.Add(this.buttonFetchLikedPages);
+            this.tabPageRegularFeatures.Controls.Add(this.buttonFetchAlbums);
+            this.tabPageRegularFeatures.Controls.Add(this.buttonFetchEvents);
+            this.tabPageRegularFeatures.Controls.Add(this.buttonFetchAllData);
+            this.tabPageRegularFeatures.Controls.Add(this.labelDescription);
+            this.tabPageRegularFeatures.Controls.Add(this.labelListBoxUserPosts);
+            this.tabPageRegularFeatures.Controls.Add(this.labelListBoxGrops);
+            this.tabPageRegularFeatures.Controls.Add(this.labelListBoxAlbums);
+            this.tabPageRegularFeatures.Controls.Add(this.labelBoxEvents);
+            this.tabPageRegularFeatures.Controls.Add(this.richTextBoxDescription);
+            this.tabPageRegularFeatures.Controls.Add(this.listBoxUserPosts);
+            this.tabPageRegularFeatures.Controls.Add(this.listBoxLikedPages);
+            this.tabPageRegularFeatures.Controls.Add(this.listBoxAlbums);
+            this.tabPageRegularFeatures.Controls.Add(this.listBoxEvents);
+            this.tabPageRegularFeatures.Controls.Add(this.pictureBoxProfile);
+            this.tabPageRegularFeatures.Controls.Add(this.label1);
+            this.tabPageRegularFeatures.Controls.Add(this.buttonLogout);
+            this.tabPageRegularFeatures.Controls.Add(this.buttonLogin);
+            this.tabPageRegularFeatures.Location = new System.Drawing.Point(4, 27);
+            this.tabPageRegularFeatures.Name = "tabPageRegularFeatures";
+            this.tabPageRegularFeatures.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageRegularFeatures.Size = new System.Drawing.Size(1235, 666);
+            this.tabPageRegularFeatures.TabIndex = 0;
+            this.tabPageRegularFeatures.Text = "Regular Features";
+            this.tabPageRegularFeatures.UseVisualStyleBackColor = true;
+            // 
+            // labelPleaseLogin
+            // 
+            this.labelPleaseLogin.AutoSize = true;
+            this.labelPleaseLogin.ForeColor = System.Drawing.Color.Red;
+            this.labelPleaseLogin.Location = new System.Drawing.Point(116, 96);
+            this.labelPleaseLogin.Name = "labelPleaseLogin";
+            this.labelPleaseLogin.Size = new System.Drawing.Size(170, 18);
+            this.labelPleaseLogin.TabIndex = 81;
+            this.labelPleaseLogin.Text = "Please Login to continue";
+            // 
+            // buttonAddAppID
+            // 
+            this.buttonAddAppID.Location = new System.Drawing.Point(588, 74);
+            this.buttonAddAppID.Name = "buttonAddAppID";
+            this.buttonAddAppID.Size = new System.Drawing.Size(91, 26);
+            this.buttonAddAppID.TabIndex = 80;
+            this.buttonAddAppID.Text = "Add";
+            this.buttonAddAppID.UseVisualStyleBackColor = true;
+            this.buttonAddAppID.Click += new System.EventHandler(this.buttonAddAppID_Click);
+            // 
+            // comboBoxAppID
+            // 
+            this.comboBoxAppID.FormattingEnabled = true;
+            this.comboBoxAppID.Items.AddRange(new object[] {
+            "1542194956558397",
+            "1450160541956417"});
+            this.comboBoxAppID.Location = new System.Drawing.Point(317, 74);
+            this.comboBoxAppID.Name = "comboBoxAppID";
+            this.comboBoxAppID.Size = new System.Drawing.Size(265, 26);
+            this.comboBoxAppID.TabIndex = 79;
+            this.comboBoxAppID.SelectedIndexChanged += new System.EventHandler(this.comboBoxAppID_SelectedIndexChanged);
             // 
             // labelFavoriteTeams
             // 
@@ -395,71 +432,63 @@
             this.pictureBoxProfile.TabIndex = 55;
             this.pictureBoxProfile.TabStop = false;
             // 
-            // textBoxAppID
+            // tabPageSpecialFeatures
             // 
-            this.textBoxAppID.Location = new System.Drawing.Point(317, 61);
-            this.textBoxAppID.Name = "textBoxAppID";
-            this.textBoxAppID.Size = new System.Drawing.Size(237, 24);
-            this.textBoxAppID.TabIndex = 54;
-            this.textBoxAppID.Text = "1450160541956417";
-            this.textBoxAppID.TextChanged += new System.EventHandler(this.textBoxAppID_TextChanged);
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.labelUserPostCreatedMonthGraph);
-            this.tabPage2.Controls.Add(this.buttonFetchUserPostCreatedPerMonthGraph);
-            this.tabPage2.Controls.Add(this.chartUserCreatedPostsPerMonth);
-            this.tabPage2.Controls.Add(this.pictureBoxEventsOnUserBirthdayMonth);
-            this.tabPage2.Controls.Add(this.richTextBox1);
-            this.tabPage2.Controls.Add(this.labelEventDescription);
-            this.tabPage2.Controls.Add(this.listBoxEventsOnUserBirthdayMonth);
-            this.tabPage2.Controls.Add(this.buttonShowEventOnBirthdayMonth);
-            this.tabPage2.Controls.Add(this.labelUserBirthDayMonth);
-            this.tabPage2.Location = new System.Drawing.Point(4, 27);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1235, 666);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabPageSpecialFeatures.Controls.Add(this.labelUserPostCreatedMonthGraph);
+            this.tabPageSpecialFeatures.Controls.Add(this.buttonFetchUserPostCreatedPerMonthGraph);
+            this.tabPageSpecialFeatures.Controls.Add(this.chartUserCreatedPostsPerMonth);
+            this.tabPageSpecialFeatures.Controls.Add(this.pictureBoxEventsOnUserBirthdayMonth);
+            this.tabPageSpecialFeatures.Controls.Add(this.richTextBoxEventOnUserBirthDayMonth);
+            this.tabPageSpecialFeatures.Controls.Add(this.labelEventDescription);
+            this.tabPageSpecialFeatures.Controls.Add(this.listBoxEventsOnUserBirthdayMonth);
+            this.tabPageSpecialFeatures.Controls.Add(this.buttonShowEventOnBirthdayMonth);
+            this.tabPageSpecialFeatures.Controls.Add(this.labelUserBirthDayMonth);
+            this.tabPageSpecialFeatures.Enabled = false;
+            this.tabPageSpecialFeatures.Location = new System.Drawing.Point(4, 27);
+            this.tabPageSpecialFeatures.Name = "tabPageSpecialFeatures";
+            this.tabPageSpecialFeatures.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageSpecialFeatures.Size = new System.Drawing.Size(1235, 666);
+            this.tabPageSpecialFeatures.TabIndex = 1;
+            this.tabPageSpecialFeatures.Text = "Special Features";
+            this.tabPageSpecialFeatures.UseVisualStyleBackColor = true;
             // 
             // labelUserPostCreatedMonthGraph
             // 
             this.labelUserPostCreatedMonthGraph.AutoSize = true;
             this.labelUserPostCreatedMonthGraph.Location = new System.Drawing.Point(9, 260);
             this.labelUserPostCreatedMonthGraph.Name = "labelUserPostCreatedMonthGraph";
-            this.labelUserPostCreatedMonthGraph.Size = new System.Drawing.Size(245, 18);
+            this.labelUserPostCreatedMonthGraph.Size = new System.Drawing.Size(319, 18);
             this.labelUserPostCreatedMonthGraph.TabIndex = 8;
-            this.labelUserPostCreatedMonthGraph.Text = "The User\'s created posts per Month";
+            this.labelUserPostCreatedMonthGraph.Text = "The User\'s created Number of posts per Month";
             // 
             // buttonFetchUserPostCreatedPerMonthGraph
             // 
             this.buttonFetchUserPostCreatedPerMonthGraph.Location = new System.Drawing.Point(31, 281);
             this.buttonFetchUserPostCreatedPerMonthGraph.Name = "buttonFetchUserPostCreatedPerMonthGraph";
-            this.buttonFetchUserPostCreatedPerMonthGraph.Size = new System.Drawing.Size(173, 48);
+            this.buttonFetchUserPostCreatedPerMonthGraph.Size = new System.Drawing.Size(218, 48);
             this.buttonFetchUserPostCreatedPerMonthGraph.TabIndex = 7;
-            this.buttonFetchUserPostCreatedPerMonthGraph.Text = "Fetch User\'s Created Posts per Month Graph";
+            this.buttonFetchUserPostCreatedPerMonthGraph.Text = "Fetch User\'s Created Number of Posts per Month Graph";
             this.buttonFetchUserPostCreatedPerMonthGraph.UseVisualStyleBackColor = true;
             this.buttonFetchUserPostCreatedPerMonthGraph.Click += new System.EventHandler(this.buttonFetchUserPostCreatedPerMonthGraph_Click);
             // 
             // chartUserCreatedPostsPerMonth
             // 
-            chartArea3.Name = "ChartArea1";
-            this.chartUserCreatedPostsPerMonth.ChartAreas.Add(chartArea3);
-            legend3.Name = "Legend1";
-            this.chartUserCreatedPostsPerMonth.Legends.Add(legend3);
-            this.chartUserCreatedPostsPerMonth.Location = new System.Drawing.Point(394, 279);
+            chartArea1.Name = "ChartArea1";
+            this.chartUserCreatedPostsPerMonth.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chartUserCreatedPostsPerMonth.Legends.Add(legend1);
+            this.chartUserCreatedPostsPerMonth.Location = new System.Drawing.Point(373, 260);
             this.chartUserCreatedPostsPerMonth.Name = "chartUserCreatedPostsPerMonth";
-            series3.ChartArea = "ChartArea1";
-            series3.Legend = "Legend1";
-            series3.Name = "Number of Posts";
-            this.chartUserCreatedPostsPerMonth.Series.Add(series3);
-            this.chartUserCreatedPostsPerMonth.Size = new System.Drawing.Size(479, 297);
-            this.chartUserCreatedPostsPerMonth.TabIndex = 6;
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Number of Posts";
+            this.chartUserCreatedPostsPerMonth.Series.Add(series1);
+            this.chartUserCreatedPostsPerMonth.Size = new System.Drawing.Size(626, 341);
+            this.chartUserCreatedPostsPerMonth.TabIndex = 12;
             this.chartUserCreatedPostsPerMonth.Text = "chart1";
-            title3.Name = "TitleUserCreatedPostsPerMonthGraph";
-            title3.Text = "Users Created Posts Per Month";
-            this.chartUserCreatedPostsPerMonth.Titles.Add(title3);
+            title1.Name = "TitleUserCreatedPostsPerMonthGraph";
+            title1.Text = "Users Created Posts Per Month";
+            this.chartUserCreatedPostsPerMonth.Titles.Add(title1);
             // 
             // pictureBoxEventsOnUserBirthdayMonth
             // 
@@ -469,13 +498,13 @@
             this.pictureBoxEventsOnUserBirthdayMonth.TabIndex = 5;
             this.pictureBoxEventsOnUserBirthdayMonth.TabStop = false;
             // 
-            // richTextBox1
+            // richTextBoxEventOnUserBirthDayMonth
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(748, 48);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(274, 148);
-            this.richTextBox1.TabIndex = 4;
-            this.richTextBox1.Text = "";
+            this.richTextBoxEventOnUserBirthDayMonth.Location = new System.Drawing.Point(748, 48);
+            this.richTextBoxEventOnUserBirthDayMonth.Name = "richTextBoxEventOnUserBirthDayMonth";
+            this.richTextBoxEventOnUserBirthDayMonth.Size = new System.Drawing.Size(274, 148);
+            this.richTextBoxEventOnUserBirthDayMonth.TabIndex = 4;
+            this.richTextBoxEventOnUserBirthDayMonth.Text = "";
             // 
             // labelEventDescription
             // 
@@ -494,6 +523,7 @@
             this.listBoxEventsOnUserBirthdayMonth.Name = "listBoxEventsOnUserBirthdayMonth";
             this.listBoxEventsOnUserBirthdayMonth.Size = new System.Drawing.Size(272, 148);
             this.listBoxEventsOnUserBirthdayMonth.TabIndex = 2;
+            this.listBoxEventsOnUserBirthdayMonth.SelectedIndexChanged += new System.EventHandler(this.listBoxEventsOnUserBirthdayMonth_SelectedIndexChanged);
             // 
             // buttonShowEventOnBirthdayMonth
             // 
@@ -519,23 +549,23 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1243, 697);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.tabControl);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
-            this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
+            this.Text = "DP.206026254";
+            this.tabControl.ResumeLayout(false);
+            this.tabPageRegularFeatures.ResumeLayout(false);
+            this.tabPageRegularFeatures.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGroups)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMyPosts)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLikedPages)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAlbums)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEvents)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfile)).EndInit();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
+            this.tabPageSpecialFeatures.ResumeLayout(false);
+            this.tabPageSpecialFeatures.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartUserCreatedPostsPerMonth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEventsOnUserBirthdayMonth)).EndInit();
             this.ResumeLayout(false);
@@ -547,10 +577,9 @@
 		private System.Windows.Forms.Button buttonLogin;
 		private System.Windows.Forms.Button buttonLogout;
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.TabControl tabControl1;
-		private System.Windows.Forms.TabPage tabPage1;
-		private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.TextBox textBoxAppID;
+		private System.Windows.Forms.TabControl tabControl;
+		private System.Windows.Forms.TabPage tabPageRegularFeatures;
+		private System.Windows.Forms.TabPage tabPageSpecialFeatures;
         private System.Windows.Forms.PictureBox pictureBoxProfile;
         private System.Windows.Forms.ListBox listBoxAlbums;
         private System.Windows.Forms.ListBox listBoxEvents;
@@ -579,11 +608,14 @@
         private System.Windows.Forms.ListBox listBoxEventsOnUserBirthdayMonth;
         private System.Windows.Forms.Button buttonShowEventOnBirthdayMonth;
         private System.Windows.Forms.PictureBox pictureBoxEventsOnUserBirthdayMonth;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox richTextBoxEventOnUserBirthDayMonth;
         private System.Windows.Forms.Label labelEventDescription;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartUserCreatedPostsPerMonth;
         private System.Windows.Forms.Label labelUserPostCreatedMonthGraph;
         private System.Windows.Forms.Button buttonFetchUserPostCreatedPerMonthGraph;
+        private System.Windows.Forms.ComboBox comboBoxAppID;
+        private System.Windows.Forms.Button buttonAddAppID;
+        private System.Windows.Forms.Label labelPleaseLogin;
     }
 }
 
