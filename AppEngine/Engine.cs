@@ -11,17 +11,9 @@ namespace AppEngine
 {
     public class Engine
     {
-        public string UserName { get; set; }
-
         public bool IsLoggedIn { get; set; }
-
         public LoginResult LoginResult { get; set; }
-
         public string AppID { get; set; } = "1542194956558397";
-
-        public Engine()
-        {
-        }
 
         public List<Post> FetchUserPosts()
         {
@@ -87,7 +79,7 @@ namespace AppEngine
         {
             string postMonth;
             List<Post> userPosts = FetchUserPosts();
-            Dictionary<string, int> postsPerMonth = monthDictionary();
+            Dictionary<string, int> postsPerMonth = getMonthDictionary();
 
             foreach(Post post in userPosts)
             {
@@ -128,7 +120,7 @@ namespace AppEngine
             return int.Parse(birthday.Substring(0, 2)); //returns the month
         }
 
-        private Dictionary<string, int> monthDictionary()
+        private Dictionary<string, int> getMonthDictionary()
         {
             Dictionary<string, int> monthDictionary = new Dictionary<string, int>();
 

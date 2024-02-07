@@ -15,31 +15,35 @@ namespace BasicFacebookFeatures
     public partial class FormMain : Form
     {
         private readonly Engine r_AppEngine = new Engine();
-        private FacebookWrapper.LoginResult m_LoginResult;
+        private const string k_NoDescription = "No Description to retrieve";
+
         public FormMain()
         {
             InitializeComponent();
             FacebookWrapper.FacebookService.s_CollectionLimit = 25;
         }
 
-        private const string k_NoDescription = "No Description to retrieve";
-
         private void buttonLogin_Click(object sender, EventArgs e)
         {
             Clipboard.SetText("design.patterns");
 
-            if (!r_AppEngine.IsLoggedIn)
+            if(comboBoxAppID.SelectedIndex > -1)
             {
-                login();
+                if(!r_AppEngine.IsLoggedIn)
+                {
+                    login();
+                }
+            }
+            else
+            {
+                MessageBox.Show(@"Please select an App ID");
             }
         }
 
         private void login()
         {
             r_AppEngine.LoginResult = FacebookService.Login(
-                /// (This is Desig Patter's App ID. replace it with your own)
                 r_AppEngine.AppID,
-                /// requested permissions:
                 "email",
                 "public_profile",
                 "user_events",
@@ -47,11 +51,14 @@ namespace BasicFacebookFeatures
                 "user_posts",
                 "user_photos",
                 "user_birthday"
-                /// add any relevant permissions
-                );
+            );
             try
             {
-                if(string.IsNullOrEmpty(r_AppEngine.LoginResult.ErrorMessage))
+                if(r_AppEngine.LoginResult == null || r_AppEngine.LoginResult.LoggedInUser == null)
+                {
+                    MessageBox.Show(@"Please Login to continue");
+                }
+                else if(string.IsNullOrEmpty(r_AppEngine.LoginResult.ErrorMessage))
                 {
                     buttonLogin.Text = $@"Logged in as {r_AppEngine.LoginResult.LoggedInUser.Name}";
                     buttonLogin.BackColor = Color.LightGreen;
@@ -61,6 +68,7 @@ namespace BasicFacebookFeatures
                     enableButtons();
                     r_AppEngine.IsLoggedIn = true;
                     labelPleaseLogin.Visible = false;
+                    comboBoxAppID.Enabled = false;
                 }
             }
             catch(Exception exception)
@@ -78,7 +86,9 @@ namespace BasicFacebookFeatures
             buttonFetchLikedPages.Enabled = true;
             buttonFetchPosts.Enabled = true;
             buttonFavoriteTeams.Enabled = true;
+            buttonPostStatus.Enabled = true;
             tabPageSpecialFeatures.Enabled = true;
+            textBoxStatus.ReadOnly = false;
         }
 
         private void disableButtons()
@@ -89,7 +99,9 @@ namespace BasicFacebookFeatures
             buttonFetchLikedPages.Enabled = false;
             buttonFetchPosts.Enabled = false;
             buttonFavoriteTeams.Enabled = false;
+            buttonPostStatus.Enabled = false;
             tabPageSpecialFeatures.Enabled = false;
+            textBoxStatus.ReadOnly = true;
         }
 
         private void buttonLogout_Click(object sender, EventArgs e)
@@ -103,33 +115,58 @@ namespace BasicFacebookFeatures
             buttonLogout.Enabled = false;
             labelPleaseLogin.Visible = true;
             pictureBoxProfile.ImageLocation = null;
+            comboBoxAppID.Enabled = true;
+            clearUI();
             disableButtons();
+        }
+
+        private void clearUI()
+        {
+            listBoxUserPosts.Items.Clear();
+            listBoxAlbums.Items.Clear();
+            listBoxEvents.Items.Clear();
+            listBoxLikedPages.Items.Clear();
+            listBoxFavoriteTeams.Items.Clear();
+            listBoxEventsOnUserBirthdayMonth.Items.Clear();
+            richTextBoxEventOnUserBirthDayMonth.Clear();
+            richTextBoxDescription.Clear();
+            pictureBoxAlbums.ImageLocation = null;
+            pictureBoxEvents.ImageLocation = null;
+            pictureBoxLikedPages.ImageLocation = null;
+            pictureBoxFavoriteTeams.ImageLocation = null;
+            pictureBoxMyPosts.ImageLocation = null;
+            pictureBoxEventsOnUserBirthdayMonth.ImageLocation = null;
+            chartUserCreatedPostsPerMonth.Series["Number of Posts"].Points.Clear();
+            chartUserCreatedPostsPerMonth.Titles.Clear();
+            chartUserCreatedPostsPerMonth.Visible = false;
         }
 
         private void listBoxAlbums_SelectedIndexChanged(object sender, EventArgs e)
         {
             Album userAlbum;
             richTextBoxDescription.Clear();
-            
-            if(listBoxAlbums.Items.Count == 0)
+            if(listBoxAlbums.SelectedIndex >= 0)
             {
-                richTextBoxDescription.Text = k_NoDescription;
-            }
-            else
-            {
-                try
+                if(listBoxAlbums.Items.Count == 0)
                 {
-                    userAlbum = r_AppEngine.LoginResult.LoggedInUser.Albums[listBoxAlbums.SelectedIndex];
-                    richTextBoxDescription.Text = userAlbum.Description ?? k_NoDescription;
-
-                    if(userAlbum.PictureAlbumURL != null)
-                    {
-                        pictureBoxAlbums.Load(userAlbum.PictureAlbumURL);
-                    }
+                    richTextBoxDescription.Text = k_NoDescription;
                 }
-                catch(Exception exception)
+                else
                 {
-                    MessageBox.Show($@"Error: {exception.Message}");
+                    try
+                    {
+                        userAlbum = r_AppEngine.LoginResult.LoggedInUser.Albums[listBoxAlbums.SelectedIndex];
+                        richTextBoxDescription.Text = userAlbum.Description ?? k_NoDescription;
+
+                        if(userAlbum.PictureAlbumURL != null)
+                        {
+                            pictureBoxAlbums.Load(userAlbum.PictureAlbumURL);
+                        }
+                    }
+                    catch(Exception exception)
+                    {
+                        MessageBox.Show($@"Error: {exception.Message}");
+                    }
                 }
             }
         }
@@ -292,30 +329,32 @@ namespace BasicFacebookFeatures
         {
             Event selectedEvent;
             richTextBoxDescription.Clear();
-            
-            if(!listBoxEvents.Enabled)
+            if(listBoxEvents.SelectedIndex >= 0)
             {
-                richTextBoxDescription.Text = k_NoDescription;
-            }
-            else
-            {
-                try
+                if(!listBoxEvents.Enabled)
                 {
-                    selectedEvent = r_AppEngine.LoginResult.LoggedInUser.Events[listBoxEvents.SelectedIndex];
-                    richTextBoxDescription.Text = selectedEvent.Description ?? k_NoDescription;
-
-                    if(selectedEvent.PictureNormalURL != null)
-                    {
-                        pictureBoxEvents.Load(selectedEvent.PictureNormalURL);
-                    }
-                    else
-                    {
-                        pictureBoxEvents.Image = null;
-                    }
+                    richTextBoxDescription.Text = k_NoDescription;
                 }
-                catch(Exception exception)
+                else
                 {
-                    MessageBox.Show($@"Error: {exception.Message}");
+                    try
+                    {
+                        selectedEvent = r_AppEngine.LoginResult.LoggedInUser.Events[listBoxEvents.SelectedIndex];
+                        richTextBoxDescription.Text = selectedEvent.Description ?? k_NoDescription;
+
+                        if(selectedEvent.PictureNormalURL != null)
+                        {
+                            pictureBoxEvents.Load(selectedEvent.PictureNormalURL);
+                        }
+                        else
+                        {
+                            pictureBoxEvents.Image = null;
+                        }
+                    }
+                    catch(Exception exception)
+                    {
+                        MessageBox.Show($@"Error: {exception.Message}");
+                    }
                 }
             }
         }
@@ -324,30 +363,32 @@ namespace BasicFacebookFeatures
         {
             Page likedPage;
             richTextBoxDescription.Clear();
-
-            if(!listBoxLikedPages.Enabled)
+            if(listBoxLikedPages.SelectedIndex >= 0)
             {
-                richTextBoxDescription.Text = k_NoDescription;
-            }
-            else
-            {
-                try
+                if(!listBoxLikedPages.Enabled)
                 {
-                    likedPage = r_AppEngine.LoginResult.LoggedInUser.LikedPages[listBoxLikedPages.SelectedIndex];
-                    richTextBoxDescription.Text = likedPage.Description ?? k_NoDescription;
-
-                    if(likedPage.PictureNormalURL != null)
-                    {
-                        pictureBoxLikedPages.Load(likedPage.PictureNormalURL);
-                    }
-                    else
-                    {
-                        pictureBoxLikedPages.Image = null;
-                    }
+                    richTextBoxDescription.Text = k_NoDescription;
                 }
-                catch(Exception exception)
+                else
                 {
-                    MessageBox.Show($@"Error: {exception.Message}");
+                    try
+                    {
+                        likedPage = r_AppEngine.LoginResult.LoggedInUser.LikedPages[listBoxLikedPages.SelectedIndex];
+                        richTextBoxDescription.Text = likedPage.Description ?? k_NoDescription;
+
+                        if(likedPage.PictureNormalURL != null)
+                        {
+                            pictureBoxLikedPages.Load(likedPage.PictureNormalURL);
+                        }
+                        else
+                        {
+                            pictureBoxLikedPages.Image = null;
+                        }
+                    }
+                    catch(Exception exception)
+                    {
+                        MessageBox.Show($@"Error: {exception.Message}");
+                    }
                 }
             }
         }
@@ -356,29 +397,31 @@ namespace BasicFacebookFeatures
         {
             Post selectedUserPost;
             richTextBoxDescription.Clear();
-            
-            if(!listBoxUserPosts.Enabled)
+            if(listBoxUserPosts.SelectedIndex >= 0)
             {
-                richTextBoxDescription.Text = k_NoDescription;
-            }
-            else
-            {
-                try
+                if(!listBoxUserPosts.Enabled)
                 {
-                    selectedUserPost = r_AppEngine.LoginResult.LoggedInUser.Posts[listBoxUserPosts.SelectedIndex];
-                    richTextBoxDescription.Text = selectedUserPost.Message ?? k_NoDescription;
-                    if(selectedUserPost.PictureURL != null)
-                    {
-                        pictureBoxMyPosts.Load(selectedUserPost.PictureURL);
-                    }
-                    else
-                    {
-                        pictureBoxMyPosts.Image = null;
-                    }
+                    richTextBoxDescription.Text = k_NoDescription;
                 }
-                catch(Exception exception)
+                else
                 {
-                    MessageBox.Show($@"Error: {exception.Message}");
+                    try
+                    {
+                        selectedUserPost = r_AppEngine.LoginResult.LoggedInUser.Posts[listBoxUserPosts.SelectedIndex];
+                        richTextBoxDescription.Text = selectedUserPost.Message ?? k_NoDescription;
+                        if(selectedUserPost.PictureURL != null)
+                        {
+                            pictureBoxMyPosts.Load(selectedUserPost.PictureURL);
+                        }
+                        else
+                        {
+                            pictureBoxMyPosts.Image = null;
+                        }
+                    }
+                    catch(Exception exception)
+                    {
+                        MessageBox.Show($@"Error: {exception.Message}");
+                    }
                 }
             }
         }
@@ -403,7 +446,7 @@ namespace BasicFacebookFeatures
             fetchUserPosts();
         }
 
-        private void buttonFetchGroups_Click(object sender, EventArgs e)
+        private void buttonFetchFavoriteTeams_Click(object sender, EventArgs e)
         {
             fetchUserFavoriteTeams();
         }
@@ -412,30 +455,34 @@ namespace BasicFacebookFeatures
         {
             Page favoriteTeamPage;
             richTextBoxDescription.Clear();
-
-            if(!listBoxFavoriteTeams.Enabled)
+            if(listBoxFavoriteTeams.SelectedIndex >= 0)
             {
-                richTextBoxDescription.Text = k_NoDescription;
-            }
-            else
-            {
-                try
+                if(!listBoxFavoriteTeams.Enabled
+                   || listBoxFavoriteTeams.SelectedIndex > listBoxFavoriteTeams.Items.Count)
                 {
-                    favoriteTeamPage = r_AppEngine.LoginResult.LoggedInUser.FavofriteTeams[listBoxFavoriteTeams.SelectedIndex];
-                    richTextBoxDescription.Text = favoriteTeamPage.Description ?? k_NoDescription;
-                    
-                    if(favoriteTeamPage.PictureNormalURL != null)
-                    {
-                        pictureBoxFavoriteTeams.Load(favoriteTeamPage.PictureNormalURL);
-                    }
-                    else
-                    {
-                        pictureBoxFavoriteTeams.Image = null;
-                    }
+                    richTextBoxDescription.Text = k_NoDescription;
                 }
-                catch(Exception exception)
-                { 
-                    MessageBox.Show($@"Error: {exception.Message}");
+                else
+                {
+                    try
+                    {
+                        favoriteTeamPage =
+                            r_AppEngine.LoginResult.LoggedInUser.FavofriteTeams[listBoxFavoriteTeams.SelectedIndex];
+                        richTextBoxDescription.Text = favoriteTeamPage.Description ?? k_NoDescription;
+
+                        if(favoriteTeamPage.PictureNormalURL != null)
+                        {
+                            pictureBoxFavoriteTeams.Load(favoriteTeamPage.PictureNormalURL);
+                        }
+                        else
+                        {
+                            pictureBoxFavoriteTeams.Image = null;
+                        }
+                    }
+                    catch(Exception exception)
+                    {
+                        MessageBox.Show($@"Error: {exception.Message}");
+                    }
                 }
             }
         }
@@ -450,6 +497,8 @@ namespace BasicFacebookFeatures
             {
                 chartUserCreatedPostsPerMonth.Series["Number of Posts"].Points.AddXY(pair.Key, pair.Value);
             }
+
+            chartUserCreatedPostsPerMonth.Visible = true;
         }
 
         private void buttonShowEventOnBirthdayMonth_Click(object sender, EventArgs e)
@@ -477,32 +526,34 @@ namespace BasicFacebookFeatures
             Event selectedEventOnBirthdayMonth;
             richTextBoxEventOnUserBirthDayMonth.Clear();
 
-            if(!listBoxEventsOnUserBirthdayMonth.Enabled)
+            if(listBoxEventsOnUserBirthdayMonth.SelectedIndex > 0)
             {
-                richTextBoxEventOnUserBirthDayMonth.Text = k_NoDescription;
-            }
-            else
-            {
-                try
+                if(!listBoxEventsOnUserBirthdayMonth.Enabled)
                 {
-                    selectedEventOnBirthdayMonth = r_AppEngine.LoginResult.LoggedInUser.
-                        Events[listBoxEventsOnUserBirthdayMonth.SelectedIndex];
-                    richTextBoxEventOnUserBirthDayMonth.Text = 
-                        selectedEventOnBirthdayMonth.Description ?? k_NoDescription;
-
-                    if(selectedEventOnBirthdayMonth.PictureNormalURL != null)
-                    {
-                        pictureBoxEventsOnUserBirthdayMonth.Load(
-                            selectedEventOnBirthdayMonth.PictureNormalURL);
-                    }
-                    else
-                    {
-                        pictureBoxEventsOnUserBirthdayMonth.Image = null;
-                    }
+                    richTextBoxEventOnUserBirthDayMonth.Text = k_NoDescription;
                 }
-                catch(Exception exception)
-                { 
-                    MessageBox.Show($@"Error: {exception.Message}");
+                else
+                {
+                    try
+                    {
+                        selectedEventOnBirthdayMonth =
+                            r_AppEngine.LoginResult.LoggedInUser.Events[listBoxEventsOnUserBirthdayMonth.SelectedIndex];
+                        richTextBoxEventOnUserBirthDayMonth.Text =
+                            selectedEventOnBirthdayMonth.Description ?? k_NoDescription;
+
+                        if(selectedEventOnBirthdayMonth.PictureNormalURL != null)
+                        {
+                            pictureBoxEventsOnUserBirthdayMonth.Load(selectedEventOnBirthdayMonth.PictureNormalURL);
+                        }
+                        else
+                        {
+                            pictureBoxEventsOnUserBirthdayMonth.Image = null;
+                        }
+                    }
+                    catch(Exception exception)
+                    {
+                        MessageBox.Show($@"Error: {exception.Message}");
+                    }
                 }
             }
         }
@@ -510,12 +561,33 @@ namespace BasicFacebookFeatures
         private void comboBoxAppID_SelectedIndexChanged(object sender, EventArgs e)
         {
             r_AppEngine.AppID = comboBoxAppID.Items[comboBoxAppID.SelectedIndex].ToString();
-
         }
 
         private void buttonAddAppID_Click(object sender, EventArgs e)
         {
-            comboBoxAppID.Items.Add(comboBoxAppID.Text);
+            if(!comboBoxAppID.Items.Contains(comboBoxAppID.Text) && comboBoxAppID.Text != string.Empty)
+            {
+                comboBoxAppID.Items.Add(comboBoxAppID.Text);
+            }
+        }
+
+        private void buttonPostStatus_Click(object sender, EventArgs e)
+        {
+            Status statusToPost;
+            try
+            {
+                if(textBoxStatus.Text != string.Empty)
+                {
+                    statusToPost = r_AppEngine.LoginResult.LoggedInUser.PostStatus(textBoxStatus.Text);
+                    MessageBox.Show("Status Posted! ID: " + statusToPost.Id);
+                }
+            }
+            catch(Exception exception)
+            {
+                MessageBox.Show(
+                    string.Format(@"Error, unable to post at the moment.{0}Error Details: {1}",
+                    Environment.NewLine, exception.Message));
+            }
         }
     }
 }

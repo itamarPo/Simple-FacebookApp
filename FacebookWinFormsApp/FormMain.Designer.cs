@@ -30,10 +30,10 @@ namespace BasicFacebookFeatures
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.buttonLogin = new System.Windows.Forms.Button();
             this.buttonLogout = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -76,6 +76,9 @@ namespace BasicFacebookFeatures
             this.listBoxEventsOnUserBirthdayMonth = new System.Windows.Forms.ListBox();
             this.buttonShowEventOnBirthdayMonth = new System.Windows.Forms.Button();
             this.labelUserBirthDayMonth = new System.Windows.Forms.Label();
+            this.labelPostStatus = new System.Windows.Forms.Label();
+            this.textBoxStatus = new System.Windows.Forms.TextBox();
+            this.buttonPostStatus = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.tabPageRegularFeatures.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFavoriteTeams)).BeginInit();
@@ -137,6 +140,9 @@ namespace BasicFacebookFeatures
             // 
             // tabPageRegularFeatures
             // 
+            this.tabPageRegularFeatures.Controls.Add(this.buttonPostStatus);
+            this.tabPageRegularFeatures.Controls.Add(this.textBoxStatus);
+            this.tabPageRegularFeatures.Controls.Add(this.labelPostStatus);
             this.tabPageRegularFeatures.Controls.Add(this.labelPleaseLogin);
             this.tabPageRegularFeatures.Controls.Add(this.buttonAddAppID);
             this.tabPageRegularFeatures.Controls.Add(this.comboBoxAppID);
@@ -210,7 +216,7 @@ namespace BasicFacebookFeatures
             // labelFavoriteTeams
             // 
             this.labelFavoriteTeams.AutoSize = true;
-            this.labelFavoriteTeams.Location = new System.Drawing.Point(826, 229);
+            this.labelFavoriteTeams.Location = new System.Drawing.Point(824, 284);
             this.labelFavoriteTeams.Name = "labelFavoriteTeams";
             this.labelFavoriteTeams.Size = new System.Drawing.Size(135, 18);
             this.labelFavoriteTeams.TabIndex = 78;
@@ -219,17 +225,17 @@ namespace BasicFacebookFeatures
             // buttonFavoriteTeams
             // 
             this.buttonFavoriteTeams.Enabled = false;
-            this.buttonFavoriteTeams.Location = new System.Drawing.Point(826, 471);
+            this.buttonFavoriteTeams.Location = new System.Drawing.Point(824, 526);
             this.buttonFavoriteTeams.Name = "buttonFavoriteTeams";
             this.buttonFavoriteTeams.Size = new System.Drawing.Size(165, 29);
             this.buttonFavoriteTeams.TabIndex = 77;
             this.buttonFavoriteTeams.Text = "Fetch Favorite Teams";
             this.buttonFavoriteTeams.UseVisualStyleBackColor = true;
-            this.buttonFavoriteTeams.Click += new System.EventHandler(this.buttonFetchGroups_Click);
+            this.buttonFavoriteTeams.Click += new System.EventHandler(this.buttonFetchFavoriteTeams_Click);
             // 
             // pictureBoxFavoriteTeams
             // 
-            this.pictureBoxFavoriteTeams.Location = new System.Drawing.Point(826, 506);
+            this.pictureBoxFavoriteTeams.Location = new System.Drawing.Point(824, 561);
             this.pictureBoxFavoriteTeams.Name = "pictureBoxFavoriteTeams";
             this.pictureBoxFavoriteTeams.Size = new System.Drawing.Size(97, 80);
             this.pictureBoxFavoriteTeams.TabIndex = 76;
@@ -239,7 +245,7 @@ namespace BasicFacebookFeatures
             // 
             this.listBoxFavoriteTeams.FormattingEnabled = true;
             this.listBoxFavoriteTeams.ItemHeight = 18;
-            this.listBoxFavoriteTeams.Location = new System.Drawing.Point(826, 248);
+            this.listBoxFavoriteTeams.Location = new System.Drawing.Point(824, 303);
             this.listBoxFavoriteTeams.Name = "listBoxFavoriteTeams";
             this.listBoxFavoriteTeams.Size = new System.Drawing.Size(139, 220);
             this.listBoxFavoriteTeams.TabIndex = 75;
@@ -247,7 +253,7 @@ namespace BasicFacebookFeatures
             // 
             // pictureBoxMyPosts
             // 
-            this.pictureBoxMyPosts.Location = new System.Drawing.Point(614, 500);
+            this.pictureBoxMyPosts.Location = new System.Drawing.Point(612, 555);
             this.pictureBoxMyPosts.Name = "pictureBoxMyPosts";
             this.pictureBoxMyPosts.Size = new System.Drawing.Size(107, 83);
             this.pictureBoxMyPosts.TabIndex = 74;
@@ -255,7 +261,7 @@ namespace BasicFacebookFeatures
             // 
             // pictureBoxLikedPages
             // 
-            this.pictureBoxLikedPages.Location = new System.Drawing.Point(410, 500);
+            this.pictureBoxLikedPages.Location = new System.Drawing.Point(408, 555);
             this.pictureBoxLikedPages.Name = "pictureBoxLikedPages";
             this.pictureBoxLikedPages.Size = new System.Drawing.Size(108, 83);
             this.pictureBoxLikedPages.TabIndex = 73;
@@ -263,7 +269,7 @@ namespace BasicFacebookFeatures
             // 
             // pictureBoxAlbums
             // 
-            this.pictureBoxAlbums.Location = new System.Drawing.Point(224, 500);
+            this.pictureBoxAlbums.Location = new System.Drawing.Point(222, 555);
             this.pictureBoxAlbums.Name = "pictureBoxAlbums";
             this.pictureBoxAlbums.Size = new System.Drawing.Size(115, 83);
             this.pictureBoxAlbums.TabIndex = 72;
@@ -271,7 +277,7 @@ namespace BasicFacebookFeatures
             // 
             // pictureBoxEvents
             // 
-            this.pictureBoxEvents.Location = new System.Drawing.Point(18, 509);
+            this.pictureBoxEvents.Location = new System.Drawing.Point(16, 564);
             this.pictureBoxEvents.Name = "pictureBoxEvents";
             this.pictureBoxEvents.Size = new System.Drawing.Size(112, 77);
             this.pictureBoxEvents.TabIndex = 71;
@@ -280,7 +286,7 @@ namespace BasicFacebookFeatures
             // buttonFetchPosts
             // 
             this.buttonFetchPosts.Enabled = false;
-            this.buttonFetchPosts.Location = new System.Drawing.Point(614, 471);
+            this.buttonFetchPosts.Location = new System.Drawing.Point(612, 526);
             this.buttonFetchPosts.Name = "buttonFetchPosts";
             this.buttonFetchPosts.Size = new System.Drawing.Size(107, 23);
             this.buttonFetchPosts.TabIndex = 70;
@@ -291,7 +297,7 @@ namespace BasicFacebookFeatures
             // buttonFetchLikedPages
             // 
             this.buttonFetchLikedPages.Enabled = false;
-            this.buttonFetchLikedPages.Location = new System.Drawing.Point(410, 471);
+            this.buttonFetchLikedPages.Location = new System.Drawing.Point(408, 526);
             this.buttonFetchLikedPages.Name = "buttonFetchLikedPages";
             this.buttonFetchLikedPages.Size = new System.Drawing.Size(154, 29);
             this.buttonFetchLikedPages.TabIndex = 69;
@@ -302,7 +308,7 @@ namespace BasicFacebookFeatures
             // buttonFetchAlbums
             // 
             this.buttonFetchAlbums.Enabled = false;
-            this.buttonFetchAlbums.Location = new System.Drawing.Point(224, 474);
+            this.buttonFetchAlbums.Location = new System.Drawing.Point(222, 529);
             this.buttonFetchAlbums.Name = "buttonFetchAlbums";
             this.buttonFetchAlbums.Size = new System.Drawing.Size(115, 23);
             this.buttonFetchAlbums.TabIndex = 68;
@@ -313,7 +319,7 @@ namespace BasicFacebookFeatures
             // buttonFetchEvents
             // 
             this.buttonFetchEvents.Enabled = false;
-            this.buttonFetchEvents.Location = new System.Drawing.Point(18, 476);
+            this.buttonFetchEvents.Location = new System.Drawing.Point(16, 531);
             this.buttonFetchEvents.Name = "buttonFetchEvents";
             this.buttonFetchEvents.Size = new System.Drawing.Size(102, 27);
             this.buttonFetchEvents.TabIndex = 67;
@@ -335,7 +341,7 @@ namespace BasicFacebookFeatures
             // labelDescription
             // 
             this.labelDescription.AutoSize = true;
-            this.labelDescription.Location = new System.Drawing.Point(1007, 227);
+            this.labelDescription.Location = new System.Drawing.Point(1005, 282);
             this.labelDescription.Name = "labelDescription";
             this.labelDescription.Size = new System.Drawing.Size(83, 18);
             this.labelDescription.TabIndex = 65;
@@ -344,7 +350,7 @@ namespace BasicFacebookFeatures
             // labelListBoxUserPosts
             // 
             this.labelListBoxUserPosts.AutoSize = true;
-            this.labelListBoxUserPosts.Location = new System.Drawing.Point(611, 227);
+            this.labelListBoxUserPosts.Location = new System.Drawing.Point(609, 282);
             this.labelListBoxUserPosts.Name = "labelListBoxUserPosts";
             this.labelListBoxUserPosts.Size = new System.Drawing.Size(69, 18);
             this.labelListBoxUserPosts.TabIndex = 64;
@@ -353,7 +359,7 @@ namespace BasicFacebookFeatures
             // labelListBoxGrops
             // 
             this.labelListBoxGrops.AutoSize = true;
-            this.labelListBoxGrops.Location = new System.Drawing.Point(407, 227);
+            this.labelListBoxGrops.Location = new System.Drawing.Point(405, 282);
             this.labelListBoxGrops.Name = "labelListBoxGrops";
             this.labelListBoxGrops.Size = new System.Drawing.Size(89, 18);
             this.labelListBoxGrops.TabIndex = 63;
@@ -362,7 +368,7 @@ namespace BasicFacebookFeatures
             // labelListBoxAlbums
             // 
             this.labelListBoxAlbums.AutoSize = true;
-            this.labelListBoxAlbums.Location = new System.Drawing.Point(221, 227);
+            this.labelListBoxAlbums.Location = new System.Drawing.Point(219, 282);
             this.labelListBoxAlbums.Name = "labelListBoxAlbums";
             this.labelListBoxAlbums.Size = new System.Drawing.Size(57, 18);
             this.labelListBoxAlbums.TabIndex = 62;
@@ -371,7 +377,7 @@ namespace BasicFacebookFeatures
             // labelBoxEvents
             // 
             this.labelBoxEvents.AutoSize = true;
-            this.labelBoxEvents.Location = new System.Drawing.Point(15, 227);
+            this.labelBoxEvents.Location = new System.Drawing.Point(13, 282);
             this.labelBoxEvents.Name = "labelBoxEvents";
             this.labelBoxEvents.Size = new System.Drawing.Size(53, 18);
             this.labelBoxEvents.TabIndex = 61;
@@ -379,8 +385,9 @@ namespace BasicFacebookFeatures
             // 
             // richTextBoxDescription
             // 
-            this.richTextBoxDescription.Location = new System.Drawing.Point(1010, 248);
+            this.richTextBoxDescription.Location = new System.Drawing.Point(1008, 303);
             this.richTextBoxDescription.Name = "richTextBoxDescription";
+            this.richTextBoxDescription.ReadOnly = true;
             this.richTextBoxDescription.Size = new System.Drawing.Size(199, 220);
             this.richTextBoxDescription.TabIndex = 60;
             this.richTextBoxDescription.Text = "";
@@ -389,7 +396,7 @@ namespace BasicFacebookFeatures
             // 
             this.listBoxUserPosts.FormattingEnabled = true;
             this.listBoxUserPosts.ItemHeight = 18;
-            this.listBoxUserPosts.Location = new System.Drawing.Point(614, 248);
+            this.listBoxUserPosts.Location = new System.Drawing.Point(612, 303);
             this.listBoxUserPosts.Name = "listBoxUserPosts";
             this.listBoxUserPosts.Size = new System.Drawing.Size(152, 220);
             this.listBoxUserPosts.TabIndex = 59;
@@ -399,7 +406,7 @@ namespace BasicFacebookFeatures
             // 
             this.listBoxLikedPages.FormattingEnabled = true;
             this.listBoxLikedPages.ItemHeight = 18;
-            this.listBoxLikedPages.Location = new System.Drawing.Point(410, 248);
+            this.listBoxLikedPages.Location = new System.Drawing.Point(408, 303);
             this.listBoxLikedPages.Name = "listBoxLikedPages";
             this.listBoxLikedPages.Size = new System.Drawing.Size(154, 220);
             this.listBoxLikedPages.TabIndex = 58;
@@ -409,7 +416,7 @@ namespace BasicFacebookFeatures
             // 
             this.listBoxAlbums.FormattingEnabled = true;
             this.listBoxAlbums.ItemHeight = 18;
-            this.listBoxAlbums.Location = new System.Drawing.Point(224, 248);
+            this.listBoxAlbums.Location = new System.Drawing.Point(222, 303);
             this.listBoxAlbums.Name = "listBoxAlbums";
             this.listBoxAlbums.Size = new System.Drawing.Size(135, 220);
             this.listBoxAlbums.TabIndex = 57;
@@ -419,7 +426,7 @@ namespace BasicFacebookFeatures
             // 
             this.listBoxEvents.FormattingEnabled = true;
             this.listBoxEvents.ItemHeight = 18;
-            this.listBoxEvents.Location = new System.Drawing.Point(18, 250);
+            this.listBoxEvents.Location = new System.Drawing.Point(16, 305);
             this.listBoxEvents.Name = "listBoxEvents";
             this.listBoxEvents.Size = new System.Drawing.Size(170, 220);
             this.listBoxEvents.TabIndex = 56;
@@ -475,25 +482,25 @@ namespace BasicFacebookFeatures
             // 
             // chartUserCreatedPostsPerMonth
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chartUserCreatedPostsPerMonth.ChartAreas.Add(chartArea1);
-            legend1.AutoFitMinFontSize = 5;
-            legend1.Name = "Legend1";
-            this.chartUserCreatedPostsPerMonth.Legends.Add(legend1);
+            chartArea2.AxisX.LabelStyle.Interval = 1D;
+            chartArea2.Name = "ChartArea1";
+            this.chartUserCreatedPostsPerMonth.ChartAreas.Add(chartArea2);
+            legend2.AutoFitMinFontSize = 5;
+            legend2.Name = "Legend1";
+            this.chartUserCreatedPostsPerMonth.Legends.Add(legend2);
             this.chartUserCreatedPostsPerMonth.Location = new System.Drawing.Point(334, 227);
             this.chartUserCreatedPostsPerMonth.Name = "chartUserCreatedPostsPerMonth";
-            chartArea1.AxisX.LabelStyle.Interval = 1;
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Number of Posts";
-            series1.ChartType = SeriesChartType.Column;
-            this.chartUserCreatedPostsPerMonth.Series.Add(series1);
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Number of Posts";
+            this.chartUserCreatedPostsPerMonth.Series.Add(series2);
             this.chartUserCreatedPostsPerMonth.Size = new System.Drawing.Size(769, 374);
             this.chartUserCreatedPostsPerMonth.TabIndex = 12;
             this.chartUserCreatedPostsPerMonth.Text = "chart1";
-            title1.Name = "TitleUserCreatedPostsPerMonthGraph";
-            title1.Text = "Users Created Posts Per Month";
-            this.chartUserCreatedPostsPerMonth.Titles.Add(title1);
+            title2.Name = "TitleUserCreatedPostsPerMonthGraph";
+            title2.Text = "Users Created Posts Per Month";
+            this.chartUserCreatedPostsPerMonth.Titles.Add(title2);
+            this.chartUserCreatedPostsPerMonth.Visible = false;
             // 
             // pictureBoxEventsOnUserBirthdayMonth
             // 
@@ -507,6 +514,7 @@ namespace BasicFacebookFeatures
             // 
             this.richTextBoxEventOnUserBirthDayMonth.Location = new System.Drawing.Point(748, 48);
             this.richTextBoxEventOnUserBirthDayMonth.Name = "richTextBoxEventOnUserBirthDayMonth";
+            this.richTextBoxEventOnUserBirthDayMonth.ReadOnly = true;
             this.richTextBoxEventOnUserBirthDayMonth.Size = new System.Drawing.Size(274, 148);
             this.richTextBoxEventOnUserBirthDayMonth.TabIndex = 4;
             this.richTextBoxEventOnUserBirthDayMonth.Text = "";
@@ -548,6 +556,34 @@ namespace BasicFacebookFeatures
             this.labelUserBirthDayMonth.Size = new System.Drawing.Size(182, 18);
             this.labelUserBirthDayMonth.TabIndex = 0;
             this.labelUserBirthDayMonth.Text = "The user\'s birthday month:";
+            // 
+            // labelPostStatus
+            // 
+            this.labelPostStatus.AutoSize = true;
+            this.labelPostStatus.Location = new System.Drawing.Point(321, 216);
+            this.labelPostStatus.Name = "labelPostStatus";
+            this.labelPostStatus.Size = new System.Drawing.Size(87, 18);
+            this.labelPostStatus.TabIndex = 82;
+            this.labelPostStatus.Text = "Post status:";
+            // 
+            // textBoxStatus
+            // 
+            this.textBoxStatus.Location = new System.Drawing.Point(427, 213);
+            this.textBoxStatus.Name = "textBoxStatus";
+            this.textBoxStatus.ReadOnly = true;
+            this.textBoxStatus.Size = new System.Drawing.Size(404, 24);
+            this.textBoxStatus.TabIndex = 83;
+            // 
+            // buttonPostStatus
+            // 
+            this.buttonPostStatus.Enabled = false;
+            this.buttonPostStatus.Location = new System.Drawing.Point(846, 216);
+            this.buttonPostStatus.Name = "buttonPostStatus";
+            this.buttonPostStatus.Size = new System.Drawing.Size(75, 23);
+            this.buttonPostStatus.TabIndex = 84;
+            this.buttonPostStatus.Text = "Post";
+            this.buttonPostStatus.UseVisualStyleBackColor = true;
+            this.buttonPostStatus.Click += new System.EventHandler(this.buttonPostStatus_Click);
             // 
             // FormMain
             // 
@@ -621,6 +657,9 @@ namespace BasicFacebookFeatures
         private System.Windows.Forms.ComboBox comboBoxAppID;
         private System.Windows.Forms.Button buttonAddAppID;
         private System.Windows.Forms.Label labelPleaseLogin;
+        private System.Windows.Forms.Button buttonPostStatus;
+        private System.Windows.Forms.TextBox textBoxStatus;
+        private System.Windows.Forms.Label labelPostStatus;
     }
 }
 
