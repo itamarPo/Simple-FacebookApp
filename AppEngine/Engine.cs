@@ -25,17 +25,14 @@ namespace AppEngine
 
         public List<Post> FetchUserPosts()
         {
-            List<Post> userPosts = new List<Post>();
             try
             {
-                userPosts.AddRange(LoginResult.LoggedInUser.Posts.Where(post => post.Message != null));
+               return LoginResult.LoggedInUser.Posts.ToList();
             }
             catch(Exception exception)
             {
                 throw new Exception($"Failed to fetch user posts: {exception.Message}");
             }
-
-            return userPosts;
         }
 
         public List<Page> FetchUserLikedPages()
@@ -96,7 +93,7 @@ namespace AppEngine
             {
                 if(post.CreatedTime != null)
                 {
-                    postMonth = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(post.CreatedTime.Value.Month);
+                    postMonth = CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(post.CreatedTime.Value.Month);
                     postsPerMonth[postMonth]++;
                 }
             }
@@ -127,6 +124,7 @@ namespace AppEngine
         {
             //facebook returns the birthday date in the format MM/DD/YYYY as string
             string birthday = LoginResult.LoggedInUser.Birthday;
+
             return int.Parse(birthday.Substring(0, 2)); //returns the month
         }
 
@@ -136,7 +134,7 @@ namespace AppEngine
 
             for(int i = 1; i <= 12; i++)
             {
-                monthDictionary.Add(CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(i), 0);
+                monthDictionary.Add(CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(i), 0);
             }
 
             return monthDictionary;

@@ -1,4 +1,6 @@
-﻿namespace BasicFacebookFeatures
+﻿using System.Windows.Forms.DataVisualization.Charting;
+
+namespace BasicFacebookFeatures
 {
     partial class FormMain
     {
@@ -42,7 +44,7 @@
             this.comboBoxAppID = new System.Windows.Forms.ComboBox();
             this.labelFavoriteTeams = new System.Windows.Forms.Label();
             this.buttonFavoriteTeams = new System.Windows.Forms.Button();
-            this.pictureBoxGroups = new System.Windows.Forms.PictureBox();
+            this.pictureBoxFavoriteTeams = new System.Windows.Forms.PictureBox();
             this.listBoxFavoriteTeams = new System.Windows.Forms.ListBox();
             this.pictureBoxMyPosts = new System.Windows.Forms.PictureBox();
             this.pictureBoxLikedPages = new System.Windows.Forms.PictureBox();
@@ -76,7 +78,7 @@
             this.labelUserBirthDayMonth = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.tabPageRegularFeatures.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGroups)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFavoriteTeams)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMyPosts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLikedPages)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAlbums)).BeginInit();
@@ -140,7 +142,7 @@
             this.tabPageRegularFeatures.Controls.Add(this.comboBoxAppID);
             this.tabPageRegularFeatures.Controls.Add(this.labelFavoriteTeams);
             this.tabPageRegularFeatures.Controls.Add(this.buttonFavoriteTeams);
-            this.tabPageRegularFeatures.Controls.Add(this.pictureBoxGroups);
+            this.tabPageRegularFeatures.Controls.Add(this.pictureBoxFavoriteTeams);
             this.tabPageRegularFeatures.Controls.Add(this.listBoxFavoriteTeams);
             this.tabPageRegularFeatures.Controls.Add(this.pictureBoxMyPosts);
             this.tabPageRegularFeatures.Controls.Add(this.pictureBoxLikedPages);
@@ -225,13 +227,13 @@
             this.buttonFavoriteTeams.UseVisualStyleBackColor = true;
             this.buttonFavoriteTeams.Click += new System.EventHandler(this.buttonFetchGroups_Click);
             // 
-            // pictureBoxGroups
+            // pictureBoxFavoriteTeams
             // 
-            this.pictureBoxGroups.Location = new System.Drawing.Point(826, 506);
-            this.pictureBoxGroups.Name = "pictureBoxGroups";
-            this.pictureBoxGroups.Size = new System.Drawing.Size(97, 80);
-            this.pictureBoxGroups.TabIndex = 76;
-            this.pictureBoxGroups.TabStop = false;
+            this.pictureBoxFavoriteTeams.Location = new System.Drawing.Point(826, 506);
+            this.pictureBoxFavoriteTeams.Name = "pictureBoxFavoriteTeams";
+            this.pictureBoxFavoriteTeams.Size = new System.Drawing.Size(97, 80);
+            this.pictureBoxFavoriteTeams.TabIndex = 76;
+            this.pictureBoxFavoriteTeams.TabStop = false;
             // 
             // listBoxFavoriteTeams
             // 
@@ -475,15 +477,18 @@
             // 
             chartArea1.Name = "ChartArea1";
             this.chartUserCreatedPostsPerMonth.ChartAreas.Add(chartArea1);
+            legend1.AutoFitMinFontSize = 5;
             legend1.Name = "Legend1";
             this.chartUserCreatedPostsPerMonth.Legends.Add(legend1);
-            this.chartUserCreatedPostsPerMonth.Location = new System.Drawing.Point(373, 260);
+            this.chartUserCreatedPostsPerMonth.Location = new System.Drawing.Point(334, 227);
             this.chartUserCreatedPostsPerMonth.Name = "chartUserCreatedPostsPerMonth";
+            chartArea1.AxisX.LabelStyle.Interval = 1;
             series1.ChartArea = "ChartArea1";
             series1.Legend = "Legend1";
             series1.Name = "Number of Posts";
+            series1.ChartType = SeriesChartType.Column;
             this.chartUserCreatedPostsPerMonth.Series.Add(series1);
-            this.chartUserCreatedPostsPerMonth.Size = new System.Drawing.Size(626, 341);
+            this.chartUserCreatedPostsPerMonth.Size = new System.Drawing.Size(769, 374);
             this.chartUserCreatedPostsPerMonth.TabIndex = 12;
             this.chartUserCreatedPostsPerMonth.Text = "chart1";
             title1.Name = "TitleUserCreatedPostsPerMonthGraph";
@@ -558,7 +563,7 @@
             this.tabControl.ResumeLayout(false);
             this.tabPageRegularFeatures.ResumeLayout(false);
             this.tabPageRegularFeatures.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGroups)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFavoriteTeams)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMyPosts)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLikedPages)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAlbums)).EndInit();
@@ -603,7 +608,7 @@
         private System.Windows.Forms.ListBox listBoxFavoriteTeams;
         private System.Windows.Forms.Label labelFavoriteTeams;
         private System.Windows.Forms.Button buttonFavoriteTeams;
-        private System.Windows.Forms.PictureBox pictureBoxGroups;
+        private System.Windows.Forms.PictureBox pictureBoxFavoriteTeams;
         private System.Windows.Forms.Label labelUserBirthDayMonth;
         private System.Windows.Forms.ListBox listBoxEventsOnUserBirthdayMonth;
         private System.Windows.Forms.Button buttonShowEventOnBirthdayMonth;
