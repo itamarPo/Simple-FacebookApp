@@ -144,6 +144,7 @@ namespace BasicFacebookFeatures
         private void listBoxAlbums_SelectedIndexChanged(object sender, EventArgs e)
         {
             Album userAlbum;
+
             richTextBoxDescription.Clear();
             if(listBoxAlbums.SelectedIndex >= 0)
             {
@@ -155,12 +156,16 @@ namespace BasicFacebookFeatures
                 {
                     try
                     {
-                        userAlbum = r_AppEngine.LoginResult.LoggedInUser.Albums[listBoxAlbums.SelectedIndex];
+                        userAlbum = listBoxAlbums.SelectedItem as Album;
                         richTextBoxDescription.Text = userAlbum.Description ?? k_NoDescription;
 
                         if(userAlbum.PictureAlbumURL != null)
                         {
                             pictureBoxAlbums.Load(userAlbum.PictureAlbumURL);
+                        }
+                        else
+                        {
+                            pictureBoxAlbums.ImageLocation = null;
                         }
                     }
                     catch(Exception exception)
@@ -191,15 +196,18 @@ namespace BasicFacebookFeatures
             {
                 List<Page> favoriteTeams = r_AppEngine.FetchFavoriteTeams();
                 listBoxFavoriteTeams.Items.Clear();
+                listBoxFavoriteTeams.DisplayMember = "Name";
+
                 if(favoriteTeams.Count == 0)
                 {
-                    listBoxFavoriteTeams.Text = @"No Favorite Teams to retrieve";
+                    listBoxFavoriteTeams.Items.Add("@No liked Teams to retrieve");
+                    listBoxFavoriteTeams.Enabled = false;
                 }
                 else
                 {
                     foreach(Page team in favoriteTeams)
                     {
-                        listBoxFavoriteTeams.Items.Add(team.Name);
+                        listBoxFavoriteTeams.Items.Add(team);
                     }
                 }
             }
@@ -211,21 +219,29 @@ namespace BasicFacebookFeatures
 
         private void fetchUserLikedPages()
         {
-            listBoxLikedPages.Items.Clear();
-            List<Page> userLikedPages = r_AppEngine.FetchUserLikedPages();
+            try
+            {
+                List<Page> userLikedPages = r_AppEngine.FetchUserLikedPages();
+                listBoxLikedPages.Items.Clear();
+                listBoxLikedPages.DisplayMember = "Name";
 
-            if(userLikedPages.Count == 0)
-            {
-                listBoxLikedPages.Items.Add(@"No Liked Pages to retrieve");
-                listBoxLikedPages.Enabled = false;
-            }
-            else
-            {
-                listBoxLikedPages.Enabled = true;
-                foreach(Page page in userLikedPages)
+                if(userLikedPages.Count == 0)
                 {
-                    listBoxLikedPages.Items.Add(page.Name);
+                    listBoxLikedPages.Items.Add(@"No Liked Pages to retrieve");
+                    listBoxLikedPages.Enabled = false;
                 }
+                else
+                {
+                    listBoxLikedPages.Enabled = true;
+                    foreach(Page page in userLikedPages)
+                    {
+                        listBoxLikedPages.Items.Add(page);
+                    }
+                }
+            }
+            catch(Exception exception)
+            {
+                MessageBox.Show($@"Error: {exception.Message}");
             }
         }
 
@@ -235,6 +251,7 @@ namespace BasicFacebookFeatures
             {
                 List<Event> userEvents = r_AppEngine.FetchUserEvents();
                 listBoxEvents.Items.Clear();
+                listBoxEvents.DisplayMember = "Name";
 
                 if(userEvents.Count == 0)
                 {
@@ -246,7 +263,7 @@ namespace BasicFacebookFeatures
                     listBoxEvents.Enabled = true;
                     foreach(Event fbEvent in userEvents)
                     {
-                        listBoxEvents.Items.Add(fbEvent.Name);
+                        listBoxEvents.Items.Add(fbEvent);
                     }
                 }
             }
@@ -262,6 +279,7 @@ namespace BasicFacebookFeatures
             {
                 List<Album> userAlbums = r_AppEngine.FetchUserAlbums();
                 listBoxAlbums.Items.Clear();
+                listBoxAlbums.DisplayMember = "Name";
 
                 if(userAlbums.Count == 0)
                 {
@@ -274,7 +292,7 @@ namespace BasicFacebookFeatures
                     listBoxAlbums.Enabled = true;
                     foreach(Album album in userAlbums)
                     {
-                        listBoxAlbums.Items.Add(album.Name);
+                        listBoxAlbums.Items.Add(album);
                     }
                 }
             }
@@ -291,6 +309,7 @@ namespace BasicFacebookFeatures
             {
                 List<Post> userPosts = r_AppEngine.FetchUserPosts();
                 listBoxUserPosts.Items.Clear();
+                listBoxUserPosts.DisplayMember = "Message";
 
                 if(userPosts.Count == 0)
                 {
@@ -328,6 +347,7 @@ namespace BasicFacebookFeatures
         private void listBoxEvents_SelectedIndexChanged(object sender, EventArgs e)
         {
             Event selectedEvent;
+
             richTextBoxDescription.Clear();
             if(listBoxEvents.SelectedIndex >= 0)
             {
@@ -339,7 +359,7 @@ namespace BasicFacebookFeatures
                 {
                     try
                     {
-                        selectedEvent = r_AppEngine.LoginResult.LoggedInUser.Events[listBoxEvents.SelectedIndex];
+                        selectedEvent = listBoxEvents.SelectedItem as Event;
                         richTextBoxDescription.Text = selectedEvent.Description ?? k_NoDescription;
 
                         if(selectedEvent.PictureNormalURL != null)
@@ -348,7 +368,7 @@ namespace BasicFacebookFeatures
                         }
                         else
                         {
-                            pictureBoxEvents.Image = null;
+                            pictureBoxEvents.ImageLocation = null;
                         }
                     }
                     catch(Exception exception)
@@ -362,6 +382,7 @@ namespace BasicFacebookFeatures
         private void listBoxLikedPages_SelectedIndexChanged(object sender, EventArgs e)
         {
             Page likedPage;
+
             richTextBoxDescription.Clear();
             if(listBoxLikedPages.SelectedIndex >= 0)
             {
@@ -373,7 +394,7 @@ namespace BasicFacebookFeatures
                 {
                     try
                     {
-                        likedPage = r_AppEngine.LoginResult.LoggedInUser.LikedPages[listBoxLikedPages.SelectedIndex];
+                        likedPage = listBoxLikedPages.SelectedItem as Page;
                         richTextBoxDescription.Text = likedPage.Description ?? k_NoDescription;
 
                         if(likedPage.PictureNormalURL != null)
@@ -382,7 +403,7 @@ namespace BasicFacebookFeatures
                         }
                         else
                         {
-                            pictureBoxLikedPages.Image = null;
+                            pictureBoxLikedPages.ImageLocation = null;
                         }
                     }
                     catch(Exception exception)
@@ -396,6 +417,7 @@ namespace BasicFacebookFeatures
         private void listBoxUserPosts_SelectedIndexChanged(object sender, EventArgs e)
         {
             Post selectedUserPost;
+
             richTextBoxDescription.Clear();
             if(listBoxUserPosts.SelectedIndex >= 0)
             {
@@ -415,7 +437,7 @@ namespace BasicFacebookFeatures
                         }
                         else
                         {
-                            pictureBoxMyPosts.Image = null;
+                            pictureBoxMyPosts.ImageLocation = null;
                         }
                     }
                     catch(Exception exception)
@@ -454,6 +476,7 @@ namespace BasicFacebookFeatures
         private void listBoxFavoriteTeams_SelectedIndexChanged(object sender, EventArgs e)
         {
             Page favoriteTeamPage;
+
             richTextBoxDescription.Clear();
             if(listBoxFavoriteTeams.SelectedIndex >= 0)
             {
@@ -466,8 +489,7 @@ namespace BasicFacebookFeatures
                 {
                     try
                     {
-                        favoriteTeamPage =
-                            r_AppEngine.LoginResult.LoggedInUser.FavofriteTeams[listBoxFavoriteTeams.SelectedIndex];
+                        favoriteTeamPage = listBoxFavoriteTeams.SelectedItem as Page;
                         richTextBoxDescription.Text = favoriteTeamPage.Description ?? k_NoDescription;
 
                         if(favoriteTeamPage.PictureNormalURL != null)
@@ -476,7 +498,7 @@ namespace BasicFacebookFeatures
                         }
                         else
                         {
-                            pictureBoxFavoriteTeams.Image = null;
+                            pictureBoxFavoriteTeams.ImageLocation = null;
                         }
                     }
                     catch(Exception exception)
@@ -506,6 +528,7 @@ namespace BasicFacebookFeatures
             List<Event> eventsOnBirthdayMonth = r_AppEngine.FetchEventsOnBirthdayMonth();
             
             listBoxEventsOnUserBirthdayMonth.Items.Clear();
+            listBoxEventsOnUserBirthdayMonth.DisplayMember = "Name";
             if(eventsOnBirthdayMonth.Count == 0)
             {
                 listBoxEventsOnUserBirthdayMonth.Items.Add(@"No Events to retrieve");
@@ -524,8 +547,8 @@ namespace BasicFacebookFeatures
         private void listBoxEventsOnUserBirthdayMonth_SelectedIndexChanged(object sender, EventArgs e)
         {
             Event selectedEventOnBirthdayMonth;
-            richTextBoxEventOnUserBirthDayMonth.Clear();
 
+            richTextBoxEventOnUserBirthDayMonth.Clear();
             if(listBoxEventsOnUserBirthdayMonth.SelectedIndex > 0)
             {
                 if(!listBoxEventsOnUserBirthdayMonth.Enabled)
@@ -536,8 +559,7 @@ namespace BasicFacebookFeatures
                 {
                     try
                     {
-                        selectedEventOnBirthdayMonth =
-                            r_AppEngine.LoginResult.LoggedInUser.Events[listBoxEventsOnUserBirthdayMonth.SelectedIndex];
+                        selectedEventOnBirthdayMonth = listBoxEventsOnUserBirthdayMonth.SelectedItem as Event;
                         richTextBoxEventOnUserBirthDayMonth.Text =
                             selectedEventOnBirthdayMonth.Description ?? k_NoDescription;
 
@@ -547,7 +569,7 @@ namespace BasicFacebookFeatures
                         }
                         else
                         {
-                            pictureBoxEventsOnUserBirthdayMonth.Image = null;
+                            pictureBoxEventsOnUserBirthdayMonth.ImageLocation = null;
                         }
                     }
                     catch(Exception exception)
@@ -574,6 +596,7 @@ namespace BasicFacebookFeatures
         private void buttonPostStatus_Click(object sender, EventArgs e)
         {
             Status statusToPost;
+
             try
             {
                 if(textBoxStatus.Text != string.Empty)
