@@ -38,7 +38,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AdapterUserDetails.cs" />
     <Compile Include="Engine.cs" />
+    <Compile Include="IUserDetails.cs" />
     <Compile Include="Singelton.cs" />
   </ItemGroup>
   <ItemGroup>

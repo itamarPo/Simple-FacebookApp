@@ -61,7 +61,8 @@ namespace BasicFacebookFeatures
                 }
                 else if(string.IsNullOrEmpty(r_AppEngine.LoginResult.ErrorMessage))
                 {
-                    buttonLogin.Text = $@"Logged in as {r_AppEngine.LoginResult.LoggedInUser.Name}";
+                    buttonLogin.Invoke(new Action(() =>
+                        buttonLogin.Text = $@"Logged in as {r_AppEngine.LoginResult.LoggedInUser.Name}"));
                     buttonLogin.BackColor = Color.LightGreen;
                     pictureBoxProfile.ImageLocation = r_AppEngine.LoginResult.LoggedInUser.PictureNormalURL;
                     buttonLogin.Invoke(new Action(() => buttonLogin.Enabled = false));

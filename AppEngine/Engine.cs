@@ -76,6 +76,7 @@ namespace AppEngine
             }
         }
 
+        //inject strategy somewhere
         public Dictionary<string, int> FetchUserPostCreatedPerMonth()
         {
             string postMonth;
@@ -96,14 +97,13 @@ namespace AppEngine
 
         public List<Event> FetchEventsOnBirthdayMonth()
         {
-            int birthdayMonth = getBirthdayMonth();
+            AdapterUserDetails adapterUserDetails = new AdapterUserDetails();
             List<Event> userEvents = FetchUserEvents();
-
             foreach(Event userEvent in userEvents)
             {
                 if(userEvent.StartTime != null)
                 {
-                    if(userEvent.StartTime.Value.Month == birthdayMonth)
+                    if(userEvent.StartTime.Value.Month == adapterUserDetails.GetUserBirthday().Month)
                     {
                         userEvents.Add(userEvent);
                     }
@@ -113,15 +113,7 @@ namespace AppEngine
             return userEvents;
         }
 
-        private int getBirthdayMonth()
-        {
-            //facebook returns the birthday date in the format MM/DD/YYYY as string
-            string birthday = LoginResult.LoggedInUser.Birthday;
-
-            return int.Parse(birthday.Substring(0, 2)); //returns the month
-        }
-
-        //might inject strategy, might add adapter.
+        //might inject strategy
         private Dictionary<string, int> getMonthDictionary()
         {
             Dictionary<string, int> monthDictionary = new Dictionary<string, int>();
