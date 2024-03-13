@@ -68,10 +68,10 @@
       <HintPath>..\packages\CefSharp.WinForms.87.1.132\lib\net452\CefSharp.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="Facebook">
-      <HintPath>D:\Downloads\C23 Ex01 LirZomer 318447539 RonitLibenson 313133035\C23 Ex01 LirZomer 318447539 RonitLibenson 313133035\LogicUnit\Facebook.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Temp\Facebook.dll</HintPath>
     </Reference>
     <Reference Include="FbGraphApiWrapper">
-      <HintPath>D:\Downloads\C23 Ex01 LirZomer 318447539 RonitLibenson 313133035\C23 Ex01 LirZomer 318447539 RonitLibenson 313133035\LogicUnit\FbGraphApiWrapper.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Temp\FbGraphApiWrapper.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll</HintPath>

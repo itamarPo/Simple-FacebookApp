@@ -9,11 +9,12 @@ using FacebookWrapper.ObjectModel;
 
 namespace AppEngine
 {
-    public class Engine
+    public sealed class Engine
     {
+        private Engine() { }
         public bool IsLoggedIn { get; set; }
         public LoginResult LoginResult { get; set; }
-        public string AppID { get; set; } = "1542194956558397";
+        public string AppID { get; set; }
 
         public List<Post> FetchUserPosts()
         {
@@ -120,6 +121,7 @@ namespace AppEngine
             return int.Parse(birthday.Substring(0, 2)); //returns the month
         }
 
+        //might inject strategy, might add adapter.
         private Dictionary<string, int> getMonthDictionary()
         {
             Dictionary<string, int> monthDictionary = new Dictionary<string, int>();
