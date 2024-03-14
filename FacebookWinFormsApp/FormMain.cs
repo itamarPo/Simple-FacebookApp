@@ -18,13 +18,16 @@ namespace BasicFacebookFeatures
         private readonly Engine r_AppEngine = Singleton<Engine>.Instance;
         private const string k_NoDescription = "No Description to retrieve";
 
+        public event Action ChangedSortCheckBox;
+
         public FormMain()
         {
             InitializeComponent();
             FacebookWrapper.FacebookService.s_CollectionLimit = 25;
+            ChangedSortCheckBox += changeUserPostsPerMonth;
         }
 
-        private void buttonLogin_Click(object sender, EventArgs e)
+        private void buttonLogin_Click(object i_Sender, EventArgs i_)
         {
             Clipboard.SetText("design.patterns");
 
@@ -51,7 +54,10 @@ namespace BasicFacebookFeatures
                 "user_likes",
                 "user_posts",
                 "user_photos",
-                "user_birthday"
+                "user_birthday",
+                "user_hometown",
+                "user_location",
+                "user_gender"
             );
             try
             {
@@ -71,6 +77,7 @@ namespace BasicFacebookFeatures
                     r_AppEngine.IsLoggedIn = true;
                     labelPleaseLogin.Invoke(new Action(() => labelPleaseLogin.Visible = false));
                     comboBoxAppID.Invoke(new Action(() => comboBoxAppID.Enabled = false));
+                    fetchSortTypes();
                 }
             }
             catch(Exception exception)
@@ -91,6 +98,7 @@ namespace BasicFacebookFeatures
             buttonPostStatus.Invoke(new Action(() => buttonPostStatus.Enabled = true));
             tabPageSpecialFeatures.Invoke(new Action(() => tabPageSpecialFeatures.Enabled = true));
             textBoxStatus.Invoke(new Action(() => textBoxStatus.ReadOnly = false));
+            comboBoxSortOrder.Invoke(new Action(() => comboBoxSortOrder.Enabled = true));
         }
 
         private void disableButtons()
@@ -104,6 +112,7 @@ namespace BasicFacebookFeatures
             buttonPostStatus.Invoke(new Action(() => buttonPostStatus.Enabled = false));
             tabPageSpecialFeatures.Invoke(new Action(() => tabPageSpecialFeatures.Enabled = false));
             textBoxStatus.Invoke(new Action(() => textBoxStatus.ReadOnly = true));
+            comboBoxSortOrder.Invoke(new Action(() => comboBoxSortOrder.Enabled = false));
         }
 
         private void buttonLogout_Click(object sender, EventArgs e)
@@ -118,11 +127,11 @@ namespace BasicFacebookFeatures
             labelPleaseLogin.Visible = true;
             pictureBoxProfile.ImageLocation = null;
             comboBoxAppID.Enabled = true;
-            new Thread(clearUI).Start();
+            new Thread(clearUi).Start();
             new Thread(disableButtons).Start();
         }
 
-        private void clearUI()
+        private void clearUi()
         {
             listBoxUserPosts.Invoke(new Action(() => listBoxUserPosts.Items.Clear()));
             listBoxAlbums.Invoke(new Action(() => listBoxAlbums.Items.Clear()));
@@ -145,6 +154,17 @@ namespace BasicFacebookFeatures
             chartUserCreatedPostsPerMonth.Invoke(new Action(() =>
                 chartUserCreatedPostsPerMonth.Titles.Clear()));
             chartUserCreatedPostsPerMonth.Invoke(new Action(() => chartUserCreatedPostsPerMonth.Visible = false));
+        }
+
+        private void fetchSortTypes()
+        {
+            List<string> sortTypes = r_AppEngine.FetchSortType();
+            foreach(string sortType in sortTypes)
+            {
+                comboBoxSortOrder.Invoke(new Action(() => 
+                    comboBoxSortOrder.Items.Add(sortType)));
+            }
+            
         }
 
         private void listBoxAlbums_SelectedIndexChanged(object sender, EventArgs e)
@@ -527,8 +547,9 @@ namespace BasicFacebookFeatures
 
         private void buttonFetchUserPostCreatedPerMonthGraph_Click(object sender, EventArgs e)
         {
-            Dictionary<string, int> userPostsCreatedPerMonth = r_AppEngine.FetchUserPostCreatedPerMonth();
-            
+            //Dictionary<string, int> userPostsCreatedPerMonth = r_AppEngine.FetchUserPostCreatedPerMonth();
+            List<KeyValuePair<string, int>> userPostsCreatedPerMonth = new List<KeyValuePair<string, int>>();
+
             chartUserCreatedPostsPerMonth.Invoke(new Action(() => 
                 chartUserCreatedPostsPerMonth.Series["Number of Posts"].Points.Clear()));
             //chartUserCreatedPostsPerMonth.TabIndex = userPostsCreatedPerMonth.Keys.Count;
@@ -640,6 +661,24 @@ namespace BasicFacebookFeatures
                 MessageBox.Show(
                     string.Format(@"Error, unable to post at the moment.{0}Error Details: {1}",
                     Environment.NewLine, exception.Message));
+            }
+        }
+
+        private void changeUserPostsPerMonth()
+        {
+            if(chartUserCreatedPostsPerMonth.Visible)
+            {
+                buttonFetchUserPostCreatedPerMonthGraph_Click(null, EventArgs.Empty);
+            }
+        }
+
+        private void comboBoxSortOrder_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(comboBoxSortOrder.SelectedIndex != -1 && 
+               r_AppEngine.SortType != (eSortType)comboBoxSortOrder.SelectedIndex)
+            {
+                r_AppEngine.SortType = (eSortType)comboBoxSortOrder.SelectedIndex;
+                ChangedSortCheckBox?.Invoke();
             }
         }
     }

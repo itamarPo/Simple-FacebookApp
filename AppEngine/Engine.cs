@@ -3,6 +3,7 @@ using System.CodeDom;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using FacebookWrapper;
 using FacebookWrapper.ObjectModel;
@@ -15,6 +16,7 @@ namespace AppEngine
         public bool IsLoggedIn { get; set; }
         public LoginResult LoginResult { get; set; }
         public string AppID { get; set; }
+        public eSortType SortType { get; set; }
 
         public List<Post> FetchUserPosts()
         {
@@ -82,6 +84,9 @@ namespace AppEngine
             string postMonth;
             List<Post> userPosts = FetchUserPosts();
             Dictionary<string, int> postsPerMonth = getMonthDictionary();
+            IPostMonthComparer postMonthComparer = getPostMonthComparer();
+            List<KeyValuePair<string,int>> newList = new List<KeyValuePair<string,int>>();
+            PostByMonthSorter postByMonthSorter = new PostByMonthSorter(postMonthComparer);
 
             foreach(Post post in userPosts)
             {
@@ -92,18 +97,20 @@ namespace AppEngine
                 }
             }
 
+            newList = postsPerMonth.ToList();
+            postByMonthSorter.SortPostsByMonth(newList);
             return postsPerMonth;
         }
 
         public List<Event> FetchEventsOnBirthdayMonth()
         {
-            AdapterUserDetails adapterUserDetails = new AdapterUserDetails();
+            IUserDetails userDetails = new AdapterUserDetails();
             List<Event> userEvents = FetchUserEvents();
             foreach(Event userEvent in userEvents)
             {
                 if(userEvent.StartTime != null)
                 {
-                    if(userEvent.StartTime.Value.Month == adapterUserDetails.GetUserBirthday().Month)
+                    if(userEvent.StartTime.Value.Month == userDetails.GetUserBirthday().Month)
                     {
                         userEvents.Add(userEvent);
                     }
@@ -111,6 +118,18 @@ namespace AppEngine
             }
 
             return userEvents;
+        }
+
+        public List<string> FetchSortType()
+        {
+            List<string> sortTypes = new List<string>();
+
+            foreach(string sortEnumName in typeof(eSortType).GetEnumNames())
+            {
+                sortTypes.Add(sortEnumName);    
+            }
+
+            return sortTypes;
         }
 
         //might inject strategy
@@ -124,6 +143,25 @@ namespace AppEngine
             }
 
             return monthDictionary;
+        }
+
+        private IPostMonthComparer getPostMonthComparer()
+        {
+            IPostMonthComparer postMonthComparer = null;
+            Type strategyTypeClass = Assembly.GetExecutingAssembly()
+                .GetTypes()
+                .FirstOrDefault(i_SortClassName => i_SortClassName.Name == SortType.ToString() + "Comparer");
+
+            if (strategyTypeClass != null)
+            {
+                postMonthComparer = Activator.CreateInstance(strategyTypeClass) as IPostMonthComparer;
+            }
+            else
+            {
+                throw new ArgumentException($"Unknown strategy type: {SortType}");
+            }
+
+            return postMonthComparer;
         }
     }
 }
