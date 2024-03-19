@@ -77,7 +77,7 @@ namespace BasicFacebookFeatures
                     r_AppEngine.IsLoggedIn = true;
                     labelPleaseLogin.Invoke(new Action(() => labelPleaseLogin.Visible = false));
                     comboBoxAppID.Invoke(new Action(() => comboBoxAppID.Enabled = false));
-                    fetchSortTypes();
+                    new Thread(fetchSortTypes).Start();
                 }
             }
             catch(Exception exception)
@@ -127,6 +127,7 @@ namespace BasicFacebookFeatures
             labelPleaseLogin.Visible = true;
             pictureBoxProfile.ImageLocation = null;
             comboBoxAppID.Enabled = true;
+            eventOnUserBirthDayBindingSource.Clear();
             new Thread(clearUi).Start();
             new Thread(disableButtons).Start();
         }
@@ -138,10 +139,10 @@ namespace BasicFacebookFeatures
             listBoxEvents.Invoke(new Action(() => listBoxEvents.Items.Clear()));
             listBoxLikedPages.Invoke(new Action(() => listBoxLikedPages.Items.Clear()));
             listBoxFavoriteTeams.Invoke(new Action(() => listBoxFavoriteTeams.Items.Clear()));
-            listBoxEventsOnUserBirthdayMonth.Invoke(new Action(() =>
-                listBoxEventsOnUserBirthdayMonth.Items.Clear()));
-            richTextBoxEventOnUserBirthDayMonth.Invoke(new Action(() =>
-                richTextBoxEventOnUserBirthDayMonth.Clear()));
+            //listBoxEventsOnUserBirthdayMonth.Invoke(new Action(() =>
+             //   listBoxEventsOnUserBirthdayMonth.Items.Clear()));
+          //  richTextBoxEventOnUserBirthDayMonth.Invoke(new Action(() =>
+            //    richTextBoxEventOnUserBirthDayMonth.Clear()));
             richTextBoxDescription.Invoke(new Action(() => richTextBoxDescription.Clear()));
             pictureBoxAlbums.ImageLocation = null;
             pictureBoxEvents.ImageLocation = null;
@@ -548,7 +549,7 @@ namespace BasicFacebookFeatures
         private void buttonFetchUserPostCreatedPerMonthGraph_Click(object sender, EventArgs e)
         {
             //Dictionary<string, int> userPostsCreatedPerMonth = r_AppEngine.FetchUserPostCreatedPerMonth();
-            List<KeyValuePair<string, int>> userPostsCreatedPerMonth = new List<KeyValuePair<string, int>>();
+            List<KeyValuePair<string, int>> userPostsCreatedPerMonth = r_AppEngine.FetchUserPostCreatedPerMonth();
 
             chartUserCreatedPostsPerMonth.Invoke(new Action(() => 
                 chartUserCreatedPostsPerMonth.Series["Number of Posts"].Points.Clear()));
@@ -566,6 +567,7 @@ namespace BasicFacebookFeatures
 
         private void buttonShowEventOnBirthdayMonth_Click(object sender, EventArgs e)
         {
+            /*
             List<Event> eventsOnBirthdayMonth = r_AppEngine.FetchEventsOnBirthdayMonth();
 
             listBoxEventsOnUserBirthdayMonth.Invoke(new Action(() =>
@@ -588,6 +590,15 @@ namespace BasicFacebookFeatures
                     listBoxEventsOnUserBirthdayMonth.Invoke(new Action(() =>
                         listBoxEventsOnUserBirthdayMonth.Items.Add(eventOnBirthdayMonth)));
                 }
+            }
+            */
+            try
+            {
+                eventOnUserBirthDayBindingSource.DataSource = r_AppEngine.FetchEventsOnBirthdayMonth();
+            }
+            catch(Exception exception)
+            {
+                MessageBox.Show($@"Error getting events: {exception.Message}");
             }
         }
 

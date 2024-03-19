@@ -3,6 +3,7 @@ using System.CodeDom;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Management.Instrumentation;
 using System.Reflection;
 using System.Text;
 using FacebookWrapper;
@@ -46,7 +47,13 @@ namespace AppEngine
         {
             try
             {
-                return LoginResult.LoggedInUser.Events.ToList();
+                List<Event> events = LoginResult.LoggedInUser.Events.ToList();
+                FacebookWrapper.ObjectModel.Event userEvent = new FacebookWrapper.ObjectModel.Event
+                                                                  {
+                                                                      Description = "Check"
+                                                                  };
+                events.Add(userEvent);
+                return events;
             }
             catch(Exception exception)
             {
@@ -79,13 +86,13 @@ namespace AppEngine
         }
 
         //inject strategy somewhere
-        public Dictionary<string, int> FetchUserPostCreatedPerMonth()
+        public List<KeyValuePair<string, int>> FetchUserPostCreatedPerMonth()
         {
             string postMonth;
+            List<KeyValuePair<string, int>> postPerMonthList;
             List<Post> userPosts = FetchUserPosts();
             Dictionary<string, int> postsPerMonth = getMonthDictionary();
             IPostMonthComparer postMonthComparer = getPostMonthComparer();
-            List<KeyValuePair<string,int>> newList = new List<KeyValuePair<string,int>>();
             PostByMonthSorter postByMonthSorter = new PostByMonthSorter(postMonthComparer);
 
             foreach(Post post in userPosts)
@@ -97,9 +104,10 @@ namespace AppEngine
                 }
             }
 
-            newList = postsPerMonth.ToList();
-            postByMonthSorter.SortPostsByMonth(newList);
-            return postsPerMonth;
+            postPerMonthList = postsPerMonth.ToList();
+            postByMonthSorter.SortPostsByMonth(postPerMonthList);
+
+           return postPerMonthList;
         }
 
         public List<Event> FetchEventsOnBirthdayMonth()
@@ -126,13 +134,28 @@ namespace AppEngine
 
             foreach(string sortEnumName in typeof(eSortType).GetEnumNames())
             {
-                sortTypes.Add(sortEnumName);    
+                sortTypes.Add(adjustSortName(sortEnumName));    
             }
 
             return sortTypes;
         }
 
-        //might inject strategy
+        private string adjustSortName(string i_SortEnumName)
+        {
+            StringBuilder sortName = new StringBuilder();
+
+            foreach(char letter in i_SortEnumName)
+            {
+                if(char.IsUpper(letter) && sortName.Length > 0)
+                {
+                    sortName.Append(' ');
+                }
+                sortName.Append(letter);
+            }
+
+            return sortName.ToString();
+        }
+
         private Dictionary<string, int> getMonthDictionary()
         {
             Dictionary<string, int> monthDictionary = new Dictionary<string, int>();
@@ -147,10 +170,10 @@ namespace AppEngine
 
         private IPostMonthComparer getPostMonthComparer()
         {
-            IPostMonthComparer postMonthComparer = null;
+            IPostMonthComparer postMonthComparer;
             Type strategyTypeClass = Assembly.GetExecutingAssembly()
                 .GetTypes()
-                .FirstOrDefault(i_SortClassName => i_SortClassName.Name == SortType.ToString() + "Comparer");
+                .FirstOrDefault(i_SortClassName => i_SortClassName.Name == string.Format($"{SortType.ToString()}Comparer"));
 
             if (strategyTypeClass != null)
             {
