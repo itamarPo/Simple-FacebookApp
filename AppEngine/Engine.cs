@@ -47,13 +47,7 @@ namespace AppEngine
         {
             try
             {
-                List<Event> events = LoginResult.LoggedInUser.Events.ToList();
-                FacebookWrapper.ObjectModel.Event userEvent = new FacebookWrapper.ObjectModel.Event
-                                                                  {
-                                                                      Description = "Check"
-                                                                  };
-                events.Add(userEvent);
-                return events;
+                 return LoginResult.LoggedInUser.Events.ToList();
             }
             catch(Exception exception)
             {

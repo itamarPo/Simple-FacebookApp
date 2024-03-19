@@ -31,10 +31,10 @@ namespace BasicFacebookFeatures
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea8 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend8 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title8 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.buttonLogin = new System.Windows.Forms.Button();
             this.buttonLogout = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -71,19 +71,19 @@ namespace BasicFacebookFeatures
             this.listBoxEvents = new System.Windows.Forms.ListBox();
             this.pictureBoxProfile = new System.Windows.Forms.PictureBox();
             this.tabPageSpecialFeatures = new System.Windows.Forms.TabPage();
-            this.eventOnUserBirthDayBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.labelEventsUserBirthdayMonth = new System.Windows.Forms.Label();
+            this.labelSortGraph = new System.Windows.Forms.Label();
             this.comboBoxSortOrder = new System.Windows.Forms.ComboBox();
             this.labelUserPostCreatedMonthGraph = new System.Windows.Forms.Label();
             this.buttonFetchUserPostCreatedPerMonthGraph = new System.Windows.Forms.Button();
             this.chartUserCreatedPostsPerMonth = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.pictureBoxEventsOnUserBirthdayMonth = new System.Windows.Forms.PictureBox();
+            this.eventOnUserBirthDayBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.richTextBoxEventOnUserBirthDayMonth = new System.Windows.Forms.RichTextBox();
             this.labelEventDescription = new System.Windows.Forms.Label();
             this.listBoxEventsOnUserBirthdayMonth = new System.Windows.Forms.ListBox();
             this.buttonShowEventOnBirthdayMonth = new System.Windows.Forms.Button();
             this.labelUserBirthDayMonth = new System.Windows.Forms.Label();
-            this.labelSortGraph = new System.Windows.Forms.Label();
-            this.labelEventsUserBirthdayMonth = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.tabPageRegularFeatures.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFavoriteTeams)).BeginInit();
@@ -93,9 +93,9 @@ namespace BasicFacebookFeatures
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEvents)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfile)).BeginInit();
             this.tabPageSpecialFeatures.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.eventOnUserBirthDayBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartUserCreatedPostsPerMonth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEventsOnUserBirthdayMonth)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.eventOnUserBirthDayBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonLogin
@@ -477,6 +477,7 @@ namespace BasicFacebookFeatures
             // 
             // tabPageSpecialFeatures
             // 
+            this.tabPageSpecialFeatures.AutoScroll = true;
             this.tabPageSpecialFeatures.Controls.Add(this.labelEventsUserBirthdayMonth);
             this.tabPageSpecialFeatures.Controls.Add(this.labelSortGraph);
             this.tabPageSpecialFeatures.Controls.Add(this.comboBoxSortOrder);
@@ -498,9 +499,23 @@ namespace BasicFacebookFeatures
             this.tabPageSpecialFeatures.Text = "Special Features";
             this.tabPageSpecialFeatures.UseVisualStyleBackColor = true;
             // 
-            // eventOnUserBirthDayBindingSource
+            // labelEventsUserBirthdayMonth
             // 
-            this.eventOnUserBirthDayBindingSource.DataSource = typeof(FacebookWrapper.ObjectModel.Event);
+            this.labelEventsUserBirthdayMonth.AutoSize = true;
+            this.labelEventsUserBirthdayMonth.Location = new System.Drawing.Point(247, 27);
+            this.labelEventsUserBirthdayMonth.Name = "labelEventsUserBirthdayMonth";
+            this.labelEventsUserBirthdayMonth.Size = new System.Drawing.Size(53, 18);
+            this.labelEventsUserBirthdayMonth.TabIndex = 15;
+            this.labelEventsUserBirthdayMonth.Text = "Events";
+            // 
+            // labelSortGraph
+            // 
+            this.labelSortGraph.AutoSize = true;
+            this.labelSortGraph.Location = new System.Drawing.Point(8, 354);
+            this.labelSortGraph.Name = "labelSortGraph";
+            this.labelSortGraph.Size = new System.Drawing.Size(106, 18);
+            this.labelSortGraph.TabIndex = 14;
+            this.labelSortGraph.Text = "Sort Graph By:";
             // 
             // comboBoxSortOrder
             // 
@@ -508,7 +523,7 @@ namespace BasicFacebookFeatures
             this.comboBoxSortOrder.FormattingEnabled = true;
             this.comboBoxSortOrder.Location = new System.Drawing.Point(11, 375);
             this.comboBoxSortOrder.Name = "comboBoxSortOrder";
-            this.comboBoxSortOrder.Size = new System.Drawing.Size(121, 26);
+            this.comboBoxSortOrder.Size = new System.Drawing.Size(198, 26);
             this.comboBoxSortOrder.TabIndex = 13;
             this.comboBoxSortOrder.SelectedIndexChanged += new System.EventHandler(this.comboBoxSortOrder_SelectedIndexChanged);
             // 
@@ -533,24 +548,24 @@ namespace BasicFacebookFeatures
             // 
             // chartUserCreatedPostsPerMonth
             // 
-            chartArea1.AxisX.LabelStyle.Interval = 1D;
-            chartArea1.Name = "ChartArea1";
-            this.chartUserCreatedPostsPerMonth.ChartAreas.Add(chartArea1);
-            legend1.AutoFitMinFontSize = 5;
-            legend1.Name = "Legend1";
-            this.chartUserCreatedPostsPerMonth.Legends.Add(legend1);
+            chartArea8.AxisX.LabelStyle.Interval = 1D;
+            chartArea8.Name = "ChartArea1";
+            this.chartUserCreatedPostsPerMonth.ChartAreas.Add(chartArea8);
+            legend8.AutoFitMinFontSize = 5;
+            legend8.Name = "Legend1";
+            this.chartUserCreatedPostsPerMonth.Legends.Add(legend8);
             this.chartUserCreatedPostsPerMonth.Location = new System.Drawing.Point(331, 211);
             this.chartUserCreatedPostsPerMonth.Name = "chartUserCreatedPostsPerMonth";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Number of Posts";
-            this.chartUserCreatedPostsPerMonth.Series.Add(series1);
-            this.chartUserCreatedPostsPerMonth.Size = new System.Drawing.Size(615, 336);
+            series8.ChartArea = "ChartArea1";
+            series8.Legend = "Legend1";
+            series8.Name = "Number of Posts";
+            this.chartUserCreatedPostsPerMonth.Series.Add(series8);
+            this.chartUserCreatedPostsPerMonth.Size = new System.Drawing.Size(670, 336);
             this.chartUserCreatedPostsPerMonth.TabIndex = 12;
             this.chartUserCreatedPostsPerMonth.Text = "chart1";
-            title1.Name = "TitleUserCreatedPostsPerMonthGraph";
-            title1.Text = "Users Created Posts Per Month";
-            this.chartUserCreatedPostsPerMonth.Titles.Add(title1);
+            title8.Name = "TitleUserCreatedPostsPerMonthGraph";
+            title8.Text = "Users Created Posts Per Month";
+            this.chartUserCreatedPostsPerMonth.Titles.Add(title8);
             this.chartUserCreatedPostsPerMonth.Visible = false;
             // 
             // pictureBoxEventsOnUserBirthdayMonth
@@ -562,9 +577,13 @@ namespace BasicFacebookFeatures
             this.pictureBoxEventsOnUserBirthdayMonth.TabIndex = 5;
             this.pictureBoxEventsOnUserBirthdayMonth.TabStop = false;
             // 
+            // eventOnUserBirthDayBindingSource
+            // 
+            this.eventOnUserBirthDayBindingSource.DataSource = typeof(FacebookWrapper.ObjectModel.Event);
+            // 
             // richTextBoxEventOnUserBirthDayMonth
             // 
-            this.richTextBoxEventOnUserBirthDayMonth.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.eventOnUserBirthDayBindingSource, "Description", true));
+            this.richTextBoxEventOnUserBirthDayMonth.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.eventOnUserBirthDayBindingSource, "Description", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, "No description"));
             this.richTextBoxEventOnUserBirthDayMonth.Location = new System.Drawing.Point(704, 48);
             this.richTextBoxEventOnUserBirthDayMonth.Name = "richTextBoxEventOnUserBirthDayMonth";
             this.richTextBoxEventOnUserBirthDayMonth.Size = new System.Drawing.Size(274, 148);
@@ -590,7 +609,6 @@ namespace BasicFacebookFeatures
             this.listBoxEventsOnUserBirthdayMonth.Name = "listBoxEventsOnUserBirthdayMonth";
             this.listBoxEventsOnUserBirthdayMonth.Size = new System.Drawing.Size(272, 148);
             this.listBoxEventsOnUserBirthdayMonth.TabIndex = 2;
-            this.listBoxEventsOnUserBirthdayMonth.SelectedIndexChanged += new System.EventHandler(this.listBoxEventsOnUserBirthdayMonth_SelectedIndexChanged);
             // 
             // buttonShowEventOnBirthdayMonth
             // 
@@ -610,24 +628,6 @@ namespace BasicFacebookFeatures
             this.labelUserBirthDayMonth.Size = new System.Drawing.Size(233, 18);
             this.labelUserBirthDayMonth.TabIndex = 0;
             this.labelUserBirthDayMonth.Text = "The user\'s birthday month events: ";
-            // 
-            // labelSortGraph
-            // 
-            this.labelSortGraph.AutoSize = true;
-            this.labelSortGraph.Location = new System.Drawing.Point(8, 354);
-            this.labelSortGraph.Name = "labelSortGraph";
-            this.labelSortGraph.Size = new System.Drawing.Size(106, 18);
-            this.labelSortGraph.TabIndex = 14;
-            this.labelSortGraph.Text = "Sort Graph By:";
-            // 
-            // labelEventsUserBirthdayMonth
-            // 
-            this.labelEventsUserBirthdayMonth.AutoSize = true;
-            this.labelEventsUserBirthdayMonth.Location = new System.Drawing.Point(247, 27);
-            this.labelEventsUserBirthdayMonth.Name = "labelEventsUserBirthdayMonth";
-            this.labelEventsUserBirthdayMonth.Size = new System.Drawing.Size(53, 18);
-            this.labelEventsUserBirthdayMonth.TabIndex = 15;
-            this.labelEventsUserBirthdayMonth.Text = "Events";
             // 
             // FormMain
             // 
@@ -651,9 +651,9 @@ namespace BasicFacebookFeatures
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfile)).EndInit();
             this.tabPageSpecialFeatures.ResumeLayout(false);
             this.tabPageSpecialFeatures.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.eventOnUserBirthDayBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartUserCreatedPostsPerMonth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxEventsOnUserBirthdayMonth)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.eventOnUserBirthDayBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }

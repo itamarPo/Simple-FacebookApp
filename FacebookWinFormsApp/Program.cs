@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows.Forms;
 using FacebookWrapper;
 
-//TODO: singelton, adapter, strategy and think of another pattern
 namespace BasicFacebookFeatures
 {
     static class Program
