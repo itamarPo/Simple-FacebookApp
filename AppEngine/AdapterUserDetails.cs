@@ -17,6 +17,7 @@ namespace AppEngine
             //facebook returns the birthday date in the format MM/DD/YYYY as string
             int day, month, year;
             string birthday = LoggedUser.Birthday;
+
             month = int.Parse(birthday.Substring(0, 2)); //returns the month
             day = int.Parse(birthday.Substring(3, 2)); //returns the day
             year = int.Parse(birthday.Substring(6, 4)); //returns the year

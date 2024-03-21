@@ -615,27 +615,30 @@ namespace BasicFacebookFeatures
         {
             Status statusToPost;
 
-            try
-            {
-                textBoxStatus.Invoke(
-                    new Action(() =>
-                        { 
-                            if(textBoxStatus.Text != string.Empty)
+            textBoxStatus.Invoke(
+                new Action(
+                    () =>
+                        {
+                            try
                             {
-                                statusToPost =
-                                    r_AppEngineSingleton.LoginResult.LoggedInUser.PostStatus(textBoxStatus.Text);
-                                MessageBox.Show("Status Posted! ID: " + statusToPost.Id);
+                                if(textBoxStatus.Text != string.Empty)
+                                {
+                                    statusToPost =
+                                        r_AppEngineSingleton.LoginResult.
+                                            LoggedInUser.PostStatus(textBoxStatus.Text);
+                                    MessageBox.Show("Status Posted! ID: " + statusToPost.Id);
+                                }
+                            }
+                            catch(Exception exception)
+                            {
+                                MessageBox.Show(
+                                    string.Format(
+                                        @"Error, unable to post at the moment.{0}Error Details: {1}",
+                                        Environment.NewLine,
+                                        exception.Message));
                             }
                         }));
-            }
-            catch(Exception exception)
-            {
-                MessageBox.Show(
-                    string.Format(
-                        @"Error, unable to post at the moment.{0}Error Details: {1}",
-                        Environment.NewLine,
-                        exception.Message));
-            }
+
         }
 
         private void changeUserPostsPerMonth()
