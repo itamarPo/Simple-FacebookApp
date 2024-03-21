@@ -44,7 +44,6 @@
     <Compile Include="IPostMonthComparer.cs" />
     <Compile Include="IUserDetails.cs" />
     <Compile Include="PostByMonthSorter.cs" />
-    <Compile Include="Singelton.cs" />
     <Compile Include="SortByAmountComparer.cs" />
     <Compile Include="SortByMonthComparer.cs" />
   </ItemGroup>

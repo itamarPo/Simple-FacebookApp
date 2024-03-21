@@ -608,21 +608,33 @@ namespace BasicFacebookFeatures
 
         private void buttonPostStatus_Click(object sender, EventArgs e)
         {
+            new Thread(postStatus).Start();
+        }
+
+        private void postStatus()
+        {
             Status statusToPost;
 
             try
             {
-                if(textBoxStatus.Text != string.Empty)
-                {
-                    statusToPost = r_AppEngineSingleton.LoginResult.LoggedInUser.PostStatus(textBoxStatus.Text);
-                    MessageBox.Show("Status Posted! ID: " + statusToPost.Id);
-                }
+                textBoxStatus.Invoke(
+                    new Action(() =>
+                        { 
+                            if(textBoxStatus.Text != string.Empty)
+                            {
+                                statusToPost =
+                                    r_AppEngineSingleton.LoginResult.LoggedInUser.PostStatus(textBoxStatus.Text);
+                                MessageBox.Show("Status Posted! ID: " + statusToPost.Id);
+                            }
+                        }));
             }
             catch(Exception exception)
             {
                 MessageBox.Show(
-                    string.Format(@"Error, unable to post at the moment.{0}Error Details: {1}",
-                    Environment.NewLine, exception.Message));
+                    string.Format(
+                        @"Error, unable to post at the moment.{0}Error Details: {1}",
+                        Environment.NewLine,
+                        exception.Message));
             }
         }
 

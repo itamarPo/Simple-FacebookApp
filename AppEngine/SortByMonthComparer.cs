@@ -18,7 +18,7 @@ namespace AppEngine
             firstComparedMonthNumber = getMonthNumber(firstComparedMonth);
             secondComparedMonthNumber = getMonthNumber(secondComparedMonth);
 
-            return firstComparedMonthNumber < secondComparedMonthNumber;
+            return firstComparedMonthNumber > secondComparedMonthNumber;
         }
 
         private int getMonthNumber(string i_MonthName)
