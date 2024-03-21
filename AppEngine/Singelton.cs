@@ -11,7 +11,7 @@ namespace AppEngine
         where T : class
     {
         private static volatile T s_Instance;
-        private static object s_LockObj = new object();
+        private static readonly object sr_LockObj = new object();
         static Singleton()
         {
         }
@@ -22,7 +22,7 @@ namespace AppEngine
             {
                 if(s_Instance == null)
                 {
-                    lock(s_LockObj)
+                    lock(sr_LockObj)
                     {
                         if(s_Instance == null)
                         {

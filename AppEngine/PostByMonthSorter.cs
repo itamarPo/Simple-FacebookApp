@@ -18,6 +18,7 @@ namespace AppEngine
         public void SortPostsByMonth(List<KeyValuePair<string, int>> i_PostsPerMonth)
         {
             int n = i_PostsPerMonth.Count;
+
             for (int i = 0; i < n - 1; i++)
             {
                 for (int j = 0; j < n - i - 1; j++)

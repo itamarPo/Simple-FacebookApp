@@ -11,13 +11,34 @@ using FacebookWrapper.ObjectModel;
 
 namespace AppEngine
 {
-    public sealed class Engine
+    public sealed class EngineSingleton
     {
-        private Engine() { }
+        private static volatile EngineSingleton s_InstanceEngineSingleton;
+        private static readonly object sr_LockObj = new object();
         public bool IsLoggedIn { get; set; }
         public LoginResult LoginResult { get; set; }
         public string AppID { get; set; }
         public eSortType SortType { get; set; }
+        private EngineSingleton() { }
+
+        public static EngineSingleton Instance
+        {
+            get
+            {
+                if (s_InstanceEngineSingleton == null)
+                {
+                    lock (sr_LockObj)
+                    {
+                        if (s_InstanceEngineSingleton == null)
+                        {
+                            s_InstanceEngineSingleton = new EngineSingleton();
+                        }
+                    }
+                }
+
+                return s_InstanceEngineSingleton;
+            }
+        }
 
         public List<Post> FetchUserPosts()
         {
@@ -79,7 +100,6 @@ namespace AppEngine
             }
         }
 
-        //inject strategy somewhere
         public List<KeyValuePair<string, int>> FetchUserPostCreatedPerMonth()
         {
             string postMonth;
@@ -108,11 +128,13 @@ namespace AppEngine
         {
             IUserDetails userDetails = new AdapterUserDetails();
             List<Event> userEvents = FetchUserEvents();
+            int birthDayMonth = userDetails.GetUserBirthday().Month;
+
             foreach(Event userEvent in userEvents)
             {
                 if(userEvent.StartTime != null)
                 {
-                    if(userEvent.StartTime.Value.Month == userDetails.GetUserBirthday().Month)
+                    if(userEvent.StartTime.Value.Month == birthDayMonth)
                     {
                         userEvents.Add(userEvent);
                     }

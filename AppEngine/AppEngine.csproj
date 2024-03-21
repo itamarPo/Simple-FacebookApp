@@ -39,7 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AdapterUserDetails.cs" />
-    <Compile Include="Engine.cs" />
+    <Compile Include="EngineSingelton.cs" />
     <Compile Include="eSortType.cs" />
     <Compile Include="IPostMonthComparer.cs" />
     <Compile Include="IUserDetails.cs" />

@@ -11,7 +11,7 @@ namespace AppEngine
 {
     public class AdapterUserDetails : IUserDetails
     {
-        public User LoggedUser { get; } = Singleton<Engine>.Instance.LoginResult.LoggedInUser;
+        public User LoggedUser { get; } = EngineSingleton.Instance.LoginResult.LoggedInUser;
         public DateTime GetUserBirthday()
         {
             //facebook returns the birthday date in the format MM/DD/YYYY as string

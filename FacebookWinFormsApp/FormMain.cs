@@ -15,7 +15,7 @@ namespace BasicFacebookFeatures
 {
     public partial class FormMain : Form
     {
-        private readonly Engine r_AppEngine = Singleton<Engine>.Instance;
+        private readonly EngineSingleton r_AppEngineSingleton = EngineSingleton.Instance;
         private const string k_NoDescription = "No Description to retrieve";
 
         public event Action ChangedSortCheckBox;
@@ -33,7 +33,7 @@ namespace BasicFacebookFeatures
 
             if(comboBoxAppID.SelectedIndex > -1)
             {
-                if(!r_AppEngine.IsLoggedIn)
+                if(!r_AppEngineSingleton.IsLoggedIn)
                 {
                     login();
                 }
@@ -46,8 +46,8 @@ namespace BasicFacebookFeatures
 
         private void login()
         {
-            r_AppEngine.LoginResult = FacebookService.Login(
-                r_AppEngine.AppID,
+            r_AppEngineSingleton.LoginResult = FacebookService.Login(
+                r_AppEngineSingleton.AppID,
                 "email",
                 "public_profile",
                 "user_events",
@@ -61,20 +61,20 @@ namespace BasicFacebookFeatures
             );
             try
             {
-                if(r_AppEngine.LoginResult == null || r_AppEngine.LoginResult.LoggedInUser == null)
+                if(r_AppEngineSingleton.LoginResult == null || r_AppEngineSingleton.LoginResult.LoggedInUser == null)
                 {
                     MessageBox.Show(@"Please Login to continue");
                 }
-                else if(string.IsNullOrEmpty(r_AppEngine.LoginResult.ErrorMessage))
+                else if(string.IsNullOrEmpty(r_AppEngineSingleton.LoginResult.ErrorMessage))
                 {
                     buttonLogin.Invoke(new Action(() =>
-                        buttonLogin.Text = $@"Logged in as {r_AppEngine.LoginResult.LoggedInUser.Name}"));
+                        buttonLogin.Text = $@"Logged in as {r_AppEngineSingleton.LoginResult.LoggedInUser.Name}"));
                     buttonLogin.BackColor = Color.LightGreen;
-                    pictureBoxProfile.ImageLocation = r_AppEngine.LoginResult.LoggedInUser.PictureNormalURL;
+                    pictureBoxProfile.ImageLocation = r_AppEngineSingleton.LoginResult.LoggedInUser.PictureNormalURL;
                     buttonLogin.Invoke(new Action(() => buttonLogin.Enabled = false));
                     buttonLogout.Invoke(new Action(() => buttonLogout.Enabled = true));
                     new Thread(enableButtons).Start();
-                    r_AppEngine.IsLoggedIn = true;
+                    r_AppEngineSingleton.IsLoggedIn = true;
                     labelPleaseLogin.Invoke(new Action(() => labelPleaseLogin.Visible = false));
                     comboBoxAppID.Invoke(new Action(() => comboBoxAppID.Enabled = false));
                     new Thread(fetchSortTypes).Start();
@@ -83,7 +83,7 @@ namespace BasicFacebookFeatures
             catch(Exception exception)
             {
                 MessageBox.Show($@"Unable to login {Environment.NewLine} Error:{exception.Message}");
-                r_AppEngine.LoginResult = null;
+                r_AppEngineSingleton.LoginResult = null;
             }
         }
 
@@ -120,8 +120,8 @@ namespace BasicFacebookFeatures
             FacebookService.LogoutWithUI();
             buttonLogin.Text = "Login";
             buttonLogin.BackColor = buttonLogout.BackColor;
-            r_AppEngine.LoginResult = null;
-            r_AppEngine.IsLoggedIn = false;
+            r_AppEngineSingleton.LoginResult = null;
+            r_AppEngineSingleton.IsLoggedIn = false;
             buttonLogin.Enabled = true;
             buttonLogout.Enabled = false;
             labelPleaseLogin.Visible = true;
@@ -155,7 +155,7 @@ namespace BasicFacebookFeatures
 
         private void fetchSortTypes()
         {
-            List<string> sortTypes = r_AppEngine.FetchSortType();
+            List<string> sortTypes = r_AppEngineSingleton.FetchSortType();
 
             foreach(string sortType in sortTypes)
             {
@@ -220,7 +220,7 @@ namespace BasicFacebookFeatures
         {
             try
             {
-                List<Page> favoriteTeams = r_AppEngine.FetchFavoriteTeams();
+                List<Page> favoriteTeams = r_AppEngineSingleton.FetchFavoriteTeams();
                 listBoxFavoriteTeams.Invoke(new Action(() =>  listBoxFavoriteTeams.Items.Clear()));
                 listBoxFavoriteTeams.Invoke(new Action(() => listBoxFavoriteTeams.DisplayMember = "Name"));
 
@@ -248,7 +248,7 @@ namespace BasicFacebookFeatures
         {
             try
             {
-                List<Page> userLikedPages = r_AppEngine.FetchUserLikedPages();
+                List<Page> userLikedPages = r_AppEngineSingleton.FetchUserLikedPages();
                 listBoxLikedPages.Invoke(new Action(() => listBoxLikedPages.Items.Clear()));
                 listBoxLikedPages.Invoke(
                     new Action(() => listBoxLikedPages.DisplayMember = "Name"));
@@ -281,7 +281,7 @@ namespace BasicFacebookFeatures
         {
             try
             {
-                List<Event> userEvents = r_AppEngine.FetchUserEvents();
+                List<Event> userEvents = r_AppEngineSingleton.FetchUserEvents();
                 listBoxEvents.Invoke(new Action(() => listBoxEvents.Items.Clear()));
                 listBoxEvents.Invoke(new Action(() => listBoxEvents.DisplayMember = "Name"));
 
@@ -310,7 +310,7 @@ namespace BasicFacebookFeatures
         {
             try
             {
-                List<Album> userAlbums = r_AppEngine.FetchUserAlbums();
+                List<Album> userAlbums = r_AppEngineSingleton.FetchUserAlbums();
                 listBoxAlbums.Invoke(new Action(() => listBoxAlbums.Items.Clear()));
                 listBoxAlbums.Invoke(new Action(() => listBoxAlbums.DisplayMember = "Name"));
 
@@ -340,7 +340,7 @@ namespace BasicFacebookFeatures
         {
             try
             {
-                List<Post> userPosts = r_AppEngine.FetchUserPosts();
+                List<Post> userPosts = r_AppEngineSingleton.FetchUserPosts();
                 listBoxUserPosts.Invoke(new Action(()=> listBoxUserPosts.Items.Clear()));
                 listBoxUserPosts.Invoke(new Action(() => listBoxUserPosts.DisplayMember = "Message"));
 
@@ -464,7 +464,7 @@ namespace BasicFacebookFeatures
                 {
                     try
                     {
-                        selectedUserPost = r_AppEngine.LoginResult.LoggedInUser.Posts[listBoxUserPosts.SelectedIndex];
+                        selectedUserPost = r_AppEngineSingleton.LoginResult.LoggedInUser.Posts[listBoxUserPosts.SelectedIndex];
                         richTextBoxDescription.Invoke(new Action(() => richTextBoxDescription.Text = selectedUserPost.Message ?? k_NoDescription));
                         if(selectedUserPost.PictureURL != null)
                         {
@@ -555,7 +555,7 @@ namespace BasicFacebookFeatures
 
             try
             {
-                userPostsCreatedPerMonth = r_AppEngine.FetchUserPostCreatedPerMonth();
+                userPostsCreatedPerMonth = r_AppEngineSingleton.FetchUserPostCreatedPerMonth();
                 chartUserCreatedPostsPerMonth.Invoke(
                     new Action(() => chartUserCreatedPostsPerMonth.Series["Number of Posts"].Points.Clear()));
                 foreach(KeyValuePair<string, int> month in userPostsCreatedPerMonth)
@@ -584,7 +584,7 @@ namespace BasicFacebookFeatures
             try
             {
                 listBoxEventsOnUserBirthdayMonth.Invoke(new Action(() =>
-                    eventOnUserBirthDayBindingSource.DataSource = r_AppEngine.FetchEventsOnBirthdayMonth()));
+                    eventOnUserBirthDayBindingSource.DataSource = r_AppEngineSingleton.FetchEventsOnBirthdayMonth()));
             }
             catch(Exception exception)
             {
@@ -595,7 +595,7 @@ namespace BasicFacebookFeatures
         
         private void comboBoxAppID_SelectedIndexChanged(object sender, EventArgs e)
         {
-            r_AppEngine.AppID = comboBoxAppID.Items[comboBoxAppID.SelectedIndex].ToString();
+            r_AppEngineSingleton.AppID = comboBoxAppID.Items[comboBoxAppID.SelectedIndex].ToString();
         }
 
         private void buttonAddAppID_Click(object sender, EventArgs e)
@@ -614,7 +614,7 @@ namespace BasicFacebookFeatures
             {
                 if(textBoxStatus.Text != string.Empty)
                 {
-                    statusToPost = r_AppEngine.LoginResult.LoggedInUser.PostStatus(textBoxStatus.Text);
+                    statusToPost = r_AppEngineSingleton.LoginResult.LoggedInUser.PostStatus(textBoxStatus.Text);
                     MessageBox.Show("Status Posted! ID: " + statusToPost.Id);
                 }
             }
@@ -637,9 +637,9 @@ namespace BasicFacebookFeatures
         private void comboBoxSortOrder_SelectedIndexChanged(object sender, EventArgs e)
         {
             if(comboBoxSortOrder.SelectedIndex != -1 && 
-               r_AppEngine.SortType != (eSortType)comboBoxSortOrder.SelectedIndex)
+               r_AppEngineSingleton.SortType != (eSortType)comboBoxSortOrder.SelectedIndex)
             {
-                r_AppEngine.SortType = (eSortType)comboBoxSortOrder.SelectedIndex;
+                r_AppEngineSingleton.SortType = (eSortType)comboBoxSortOrder.SelectedIndex;
                 ChangedSortCheckBox?.Invoke();
             }
         }
